@@ -1,4 +1,5 @@
 # SwitchPoint
+[![Build Status](https://travis-ci.org/eagletmt/switch_point.svg?branch=master)](https://travis-ci.org/eagletmt/switch_point)
 
 TODO: Write a gem description
 
