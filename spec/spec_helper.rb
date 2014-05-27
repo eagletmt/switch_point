@@ -39,6 +39,9 @@ RSpec.configure do |config|
 
   config.after(:each) do
     Book.delete_all
+    Book.with_writable do
+      Book.delete_all
+    end
   end
 end
 
