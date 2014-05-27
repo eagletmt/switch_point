@@ -11,19 +11,19 @@ SwitchPoint.configure do |config|
 end
 
 class Book < ActiveRecord::Base
-  switch_point :main
+  use_switch_point :main
 end
 
 class Publisher < ActiveRecord::Base
-  switch_point :main
+  use_switch_point :main
 end
 
 class Comment < ActiveRecord::Base
-  switch_point :comment
+  use_switch_point :comment
 end
 
 class User < ActiveRecord::Base
-  switch_point :user
+  use_switch_point :user
 end
 
 class Note < ActiveRecord::Base

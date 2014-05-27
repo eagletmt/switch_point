@@ -31,7 +31,7 @@ module SwitchPoint
 
       private
 
-      def switch_point(name)
+      def use_switch_point(name)
         @switch_point_name = name
       end
 
