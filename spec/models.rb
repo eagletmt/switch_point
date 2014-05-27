@@ -1,11 +1,11 @@
 SwitchPoint.configure do |config|
-  config.switch_point :main,
+  config.define_switch_point :main,
     readonly: :main_readonly,
     writable: :main_writable
-  config.switch_point :user,
+  config.define_switch_point :user,
     readonly: :user,
     writable: :user
-  config.switch_point :comment,
+  config.define_switch_point :comment,
     readonly: :comment_readonly,
     writable: :comment_writable
 end

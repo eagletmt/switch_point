@@ -1,6 +1,6 @@
 module SwitchPoint
   class Config
-    def switch_point(name, config)
+    def define_switch_point(name, config)
       assert_valid_config!(config)
       @switch_points ||= {}
       @switch_points[name] = config
