@@ -5,19 +5,22 @@ module SwitchPoint
     def self.included(model)
       model.singleton_class.class_eval do
         include ClassMethods
-        alias_method_chain :connection, :switch_point
+        prepend ConnectionHook
       end
     end
 
-    module ClassMethods
-      def connection_with_switch_point
+    module ConnectionHook
+      def connection
         if @switch_point_name
           switch_point_proxy.connection
         else
-          connection_without_switch_point
+          super
         end
       end
 
+    end
+
+    module ClassMethods
       def with_readonly(&block)
         switch_point_proxy.with_readonly(&block)
       end
