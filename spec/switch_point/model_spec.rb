@@ -49,6 +49,42 @@ RSpec.describe SwitchPoint::Model do
         end
       end
     end
+
+    context 'with query cache' do
+      context 'when writable connection does only non-destructive operation' do
+        it 'keeps readable query cache' do
+          # Ensure ActiveRecord::Base.connected? to make Book.cache work
+          # See ActiveRecord::QueryCache::ClassMethods#cache
+          ActiveRecord::Base.connection
+          Book.cache do
+            expect(Book.count).to eq(0)
+            expect(Book.connection.query_cache.size).to eq(1)
+            Book.with_writable do
+              Book.count
+            end
+            expect(Book.connection.query_cache.size).to eq(1)
+          end
+        end
+      end
+
+      context 'when writable connection does destructive operation' do
+        it 'clears readable query cache' do
+          # Ensure ActiveRecord::Base.connected? to make Book.cache work
+          # See ActiveRecord::QueryCache::ClassMethods#cache
+          ActiveRecord::Base.connection
+          Book.cache do
+            expect(Book.count).to eq(0)
+            expect(Book.connection.query_cache.size).to eq(1)
+            Book.with_writable do
+              Book.create
+              FileUtils.cp('main_writable.sqlite3', 'main_readonly.sqlite3')  # XXX: emulate replication
+            end
+            expect(Book.connection.query_cache.size).to eq(0)
+            expect(Book.count).to eq(1)
+          end
+        end
+      end
+    end
   end
 
   describe '.with_readonly' do

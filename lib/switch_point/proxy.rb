@@ -1,3 +1,5 @@
+require 'switch_point/writable_connection_hook'
+
 module SwitchPoint
   class Proxy
     def initialize(name)
@@ -6,7 +8,9 @@ module SwitchPoint
         model = define_model(SwitchPoint.config.model_name(name, mode))
         @models[mode] = model
         model.establish_connection(SwitchPoint.config.database_name(name, mode))
+        memorize_switch_point_name(name, model.connection)
       end
+      @models[:writable].connection.extend(WritableConnectionHook)
       @mode = :readonly
     end
 
@@ -14,6 +18,10 @@ module SwitchPoint
       model = Class.new(ActiveRecord::Base)
       Proxy.const_set(model_name, model)
       model
+    end
+
+    def memorize_switch_point_name(name, connection)
+      connection.instance_variable_set(:@switch_point_name, name)
     end
 
     def readonly!

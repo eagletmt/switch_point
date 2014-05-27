@@ -17,7 +17,6 @@ module SwitchPoint
           super
         end
       end
-
     end
 
     module ClassMethods

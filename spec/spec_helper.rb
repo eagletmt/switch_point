@@ -23,10 +23,22 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  config.before(:suite) do
+    sql = 'CREATE TABLE books (id integer primary key autoincrement)'
+    Book.connection.execute(sql)
+    Book.with_writable do
+      Book.connection.execute(sql)
+    end
+  end
+
   config.after(:suite) do
     ActiveRecord::Base.configurations.each_value do |config|
       FileUtils.rm_f(config[:database])
     end
+  end
+
+  config.after(:each) do
+    Book.delete_all
   end
 end
 
