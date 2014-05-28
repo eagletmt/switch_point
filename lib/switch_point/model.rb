@@ -38,7 +38,7 @@ module SwitchPoint
       end
 
       def switch_point_proxy
-        @switch_point_proxy ||= ProxyRepository.checkout(@switch_point_name)
+        ProxyRepository.checkout(@switch_point_name)
       end
     end
   end

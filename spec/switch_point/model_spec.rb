@@ -1,5 +1,15 @@
 RSpec.describe SwitchPoint::Model do
   describe '.use_switch_point' do
+    after do
+      Book.use_switch_point :main
+    end
+
+    it 'changes connection' do
+      expect(Book).to connect_to('main_readonly.sqlite3')
+      Book.use_switch_point :comment
+      expect(Book).to connect_to('comment_readonly.sqlite3')
+    end
+
     context 'with non-existing switch point name' do
       it 'raises error' do
         expect {
