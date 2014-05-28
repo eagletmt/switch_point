@@ -1,5 +1,5 @@
-require 'switch_point/readonly_connection_hook'
-require 'switch_point/writable_connection_hook'
+require 'switch_point/readonly_connection_pool_hook'
+require 'switch_point/writable_connection_pool_hook'
 
 module SwitchPoint
   class Proxy
@@ -12,7 +12,9 @@ module SwitchPoint
         memorize_switch_point_name(name, model.connection)
       end
       @models[:readonly].connection.extend(ReadonlyConnectionHook)
+      @models[:readonly].connection.pool.singleton_class.send(:include, ReadonlyConnectionPoolHook)
       @models[:writable].connection.extend(WritableConnectionHook)
+      @models[:writable].connection.pool.singleton_class.send(:include, WritableConnectionPoolHook)
       @mode = :readonly
     end
 
@@ -23,7 +25,7 @@ module SwitchPoint
     end
 
     def memorize_switch_point_name(name, connection)
-      connection.instance_variable_set(:@switch_point_name, name)
+      connection.pool.instance_variable_set(:@switch_point_name, name)
     end
 
     def readonly!

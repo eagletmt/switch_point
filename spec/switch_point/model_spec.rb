@@ -14,6 +14,15 @@ RSpec.describe SwitchPoint::Model do
       Book.with_writable { expect(Book.count).to eq(1) }
     end
 
+    it 'works with newly checked-out connection' do
+      Thread.start do
+        expect(Book.connection.pool.connections.size).to be > 1 # Assertion
+        Book.create
+        Book.with_readonly { expect(Book.count).to eq(0) }
+        Book.with_writable { expect(Book.count).to eq(1) }
+      end.join
+    end
+
     context 'without switch_point configuration' do
       it 'returns default connection' do
         expect(Note.connection).to equal(ActiveRecord::Base.connection)
