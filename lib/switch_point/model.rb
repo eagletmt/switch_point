@@ -26,12 +26,12 @@ module SwitchPoint
         switch_point_proxy.with_writable(&block)
       end
 
-      private
-
       def use_switch_point(name)
         assert_existing_switch_point!(name)
         @switch_point_name = name
       end
+
+      private
 
       def assert_existing_switch_point!(name)
         SwitchPoint.config.fetch(name)
