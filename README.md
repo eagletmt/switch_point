@@ -1,7 +1,7 @@
 # SwitchPoint
 [![Build Status](https://travis-ci.org/eagletmt/switch_point.svg?branch=master)](https://travis-ci.org/eagletmt/switch_point)
 
-TODO: Write a gem description
+Switching database connection between readonly one and writable one.
 
 ## Installation
 
@@ -19,7 +19,10 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+See [spec/models](spec/models.rb).
+
+## TODO
+- Thread safety
 
 ## Contributing
 

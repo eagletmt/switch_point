@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = SwitchPoint::VERSION
   spec.authors       = ["Kohei Suzuki"]
   spec.email         = ["eagletmt@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Switching database connection between readonly one and writable one.}
+  spec.description   = %q{Switching database connection between readonly one and writable one.}
   spec.homepage      = "https://github.com/eagletmt/switch_point"
   spec.license       = "MIT"
 
