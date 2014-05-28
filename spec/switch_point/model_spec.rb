@@ -1,4 +1,16 @@
 RSpec.describe SwitchPoint::Model do
+  describe '.use_switch_point' do
+    context 'with non-existing switch point name' do
+      it 'raises error' do
+        expect {
+          Class.new(ActiveRecord::Base) do
+            use_switch_point :not_found
+          end
+        }.to raise_error(KeyError)
+      end
+    end
+  end
+
   describe '.connection' do
     it 'returns readonly connection by default' do
       expect(Book).to connect_to('main_readonly.sqlite3')

@@ -14,6 +14,10 @@ module SwitchPoint
       "#{mode}_#{database_name(name, mode)}".camelize
     end
 
+    def fetch(name)
+      @switch_points.fetch(name)
+    end
+
     def keys
       @switch_points.keys
     end

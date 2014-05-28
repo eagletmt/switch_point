@@ -29,7 +29,12 @@ module SwitchPoint
       private
 
       def use_switch_point(name)
+        assert_existing_switch_point!(name)
         @switch_point_name = name
+      end
+
+      def assert_existing_switch_point!(name)
+        SwitchPoint.config.fetch(name)
       end
 
       def switch_point_proxy
