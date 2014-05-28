@@ -37,5 +37,12 @@ end
 
 ActiveSupport.on_load(:active_record) do
   require 'switch_point/model'
+  require 'switch_point/connection'
   ActiveRecord::Base.send(:include, SwitchPoint::Model)
+  ActiveRecord::ConnectionAdapters::AbstractAdapter.class_eval do
+    include SwitchPoint::Connection
+    SwitchPoint::Connection::DESTRUCTIVE_METHODS.each do |method_name|
+      alias_method_chain method_name, :switch_point
+    end
+  end
 end
