@@ -5,12 +5,20 @@ module SwitchPoint
   class ProxyRepository
     include Singleton
 
+    def self.checkout(name)
+      instance.checkout(name)
+    end
+
     def self.find(name)
       instance.find(name)
     end
 
-    def find(name)
+    def checkout(name)
       proxies[name] ||= Proxy.new(name)
+    end
+
+    def find(name)
+      proxies.fetch(name)
     end
 
     def proxies
