@@ -8,6 +8,12 @@ RSpec.describe SwitchPoint::Model do
       expect(Note).to connect_to('default.sqlite3')
     end
 
+    it 'sends destructive queries to writable' do
+      Book.create
+      Book.with_readonly { expect(Book.count).to eq(0) }
+      Book.with_writable { expect(Book.count).to eq(1) }
+    end
+
     context 'without switch_point configuration' do
       it 'returns default connection' do
         expect(Note.connection).to equal(ActiveRecord::Base.connection)

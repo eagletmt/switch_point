@@ -1,3 +1,4 @@
+require 'switch_point/readonly_connection_hook'
 require 'switch_point/writable_connection_hook'
 
 module SwitchPoint
@@ -10,6 +11,7 @@ module SwitchPoint
         model.establish_connection(SwitchPoint.config.database_name(name, mode))
         memorize_switch_point_name(name, model.connection)
       end
+      @models[:readonly].connection.extend(ReadonlyConnectionHook)
       @models[:writable].connection.extend(WritableConnectionHook)
       @mode = :readonly
     end
