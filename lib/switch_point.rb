@@ -19,7 +19,7 @@ module SwitchPoint
     end
 
     def readonly!(name)
-      ProxyRepository.find(name).readonly!
+      ProxyRepository.checkout(name).readonly!
     end
 
     def writable_all!
@@ -29,7 +29,7 @@ module SwitchPoint
     end
 
     def writable!(name)
-      ProxyRepository.find(name).writable!
+      ProxyRepository.checkout(name).writable!
     end
   end
   extend ClassMethods
