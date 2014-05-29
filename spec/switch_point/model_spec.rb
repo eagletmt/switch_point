@@ -142,4 +142,27 @@ RSpec.describe SwitchPoint::Model do
       end
     end
   end
+
+  describe '.switch_name' do
+    after do
+      Book.switch_point_proxy.reset_name!
+    end
+
+    it 'switches proxy configuration' do
+      Book.switch_point_proxy.switch_name(:comment)
+      expect(Book).to connect_to('comment_readonly.sqlite3')
+      expect(Publisher).to connect_to('comment_readonly.sqlite3')
+    end
+
+    context 'with block' do
+      it 'switches proxy configuration locally' do
+        Book.switch_point_proxy.switch_name(:comment) do
+          expect(Book).to connect_to('comment_readonly.sqlite3')
+          expect(Publisher).to connect_to('comment_readonly.sqlite3')
+        end
+        expect(Book).to connect_to('main_readonly.sqlite3')
+        expect(Publisher).to connect_to('main_readonly.sqlite3')
+      end
+    end
+  end
 end

@@ -48,6 +48,24 @@ module SwitchPoint
       @mode = saved_mode
     end
 
+    def switch_name(new_name, &block)
+      if block
+        begin
+          old_name = @current_name
+          @current_name = new_name
+          block.call
+        ensure
+          @current_name = old_name
+        end
+      else
+        @current_name = new_name
+      end
+    end
+
+    def reset_name!
+      @current_name = @initial_name
+    end
+
     def connection
       Proxy.const_get(SwitchPoint.config.model_name(@current_name, @mode)).connection
     end
