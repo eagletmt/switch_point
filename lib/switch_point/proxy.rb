@@ -67,6 +67,7 @@ module SwitchPoint
     end
 
     def connection
+      ProxyRepository.checkout(@current_name) # Ensure the target proxy is created
       Proxy.const_get(SwitchPoint.config.model_name(@current_name, @mode)).connection
     end
   end
