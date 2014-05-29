@@ -1,10 +1,12 @@
 module SwitchPoint
   class Proxy
+    attr_reader :initial_name
+
     def initialize(name)
-      @models = {}
+      @initial_name = name
+      @current_name = name
       [:readonly, :writable].each do |mode|
         model = define_model(SwitchPoint.config.model_name(name, mode))
-        @models[mode] = model
         model.establish_connection(SwitchPoint.config.database_name(name, mode))
         memorize_switch_point(name, mode, model.connection)
       end
@@ -47,7 +49,7 @@ module SwitchPoint
     end
 
     def connection
-      @models[@mode].connection
+      Proxy.const_get(SwitchPoint.config.model_name(@current_name, @mode)).connection
     end
   end
 end
