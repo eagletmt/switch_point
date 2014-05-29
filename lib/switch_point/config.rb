@@ -2,12 +2,15 @@ module SwitchPoint
   class Config
     def define_switch_point(name, config)
       assert_valid_config!(config)
+      switch_points[name] = config
+    end
+
+    def switch_points
       @switch_points ||= {}
-      @switch_points[name] = config
     end
 
     def database_name(name, mode)
-      @switch_points[name][mode]
+      switch_points[name][mode]
     end
 
     def model_name(name, mode)
@@ -15,11 +18,11 @@ module SwitchPoint
     end
 
     def fetch(name)
-      @switch_points.fetch(name)
+      switch_points.fetch(name)
     end
 
     def keys
-      @switch_points.keys
+      switch_points.keys
     end
 
     private
