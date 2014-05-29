@@ -31,14 +31,14 @@ module SwitchPoint
         @switch_point_name = name
       end
 
+      def switch_point_proxy
+        ProxyRepository.checkout(@switch_point_name)
+      end
+
       private
 
       def assert_existing_switch_point!(name)
         SwitchPoint.config.fetch(name)
-      end
-
-      def switch_point_proxy
-        ProxyRepository.checkout(@switch_point_name)
       end
     end
   end
