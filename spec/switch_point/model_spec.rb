@@ -122,6 +122,12 @@ RSpec.describe SwitchPoint::Model do
         end
       end
     end
+
+    context 'without use_switch_point' do
+      it 'bypasses given block' do
+        expect(Note.with_writable { :bypass }).to eq(:bypass)
+      end
+    end
   end
 
   describe '.with_readonly' do

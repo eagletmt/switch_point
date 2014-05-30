@@ -19,11 +19,19 @@ module SwitchPoint
       end
 
       def with_readonly(&block)
-        switch_point_proxy.with_readonly(&block)
+        if switch_point_proxy
+          switch_point_proxy.with_readonly(&block)
+        else
+          block.call
+        end
       end
 
       def with_writable(&block)
-        switch_point_proxy.with_writable(&block)
+        if switch_point_proxy
+          switch_point_proxy.with_writable(&block)
+        else
+          block.call
+        end
       end
 
       def use_switch_point(name)
@@ -32,7 +40,11 @@ module SwitchPoint
       end
 
       def switch_point_proxy
-        ProxyRepository.checkout(@switch_point_name)
+        if @switch_point_name
+          ProxyRepository.checkout(@switch_point_name)
+        else
+          nil
+        end
       end
 
       private
