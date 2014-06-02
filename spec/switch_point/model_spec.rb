@@ -28,6 +28,7 @@ RSpec.describe SwitchPoint::Model do
       expect(User).to connect_to('user.sqlite3')
       expect(Comment).to connect_to('comment_readonly.sqlite3')
       expect(Note).to connect_to('default.sqlite3')
+      expect(Book.switch_point_proxy).to be_readonly
     end
 
     it 'sends destructive queries to writable' do
@@ -73,8 +74,10 @@ RSpec.describe SwitchPoint::Model do
     it 'changes connection locally' do
       Book.with_writable do
         expect(Book).to connect_to('main_writable.sqlite3')
+        expect(Book.switch_point_proxy).to be_writable
       end
       expect(Book).to connect_to('main_readonly.sqlite3')
+      expect(Book.switch_point_proxy).to be_readonly
     end
 
     it 'affects to other models with the same switch point' do

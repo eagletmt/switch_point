@@ -28,8 +28,16 @@ module SwitchPoint
       @mode = :readonly
     end
 
+    def readonly?
+      @mode == :readonly
+    end
+
     def writable!
       @mode = :writable
+    end
+
+    def writable?
+      @mode == :writable
     end
 
     def with_readonly(&block)
