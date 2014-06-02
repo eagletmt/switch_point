@@ -1,3 +1,7 @@
+## 0.2.3 (2014-06-02)
+- Support specifying the same database name within different switch_point
+- Add Proxy#readonly? and Proxy#writable? predicate
+
 ## 0.2.2 (2014-05-30)
 - Fix nil error on with_{readonly,writable} from non-switch_point model
 
