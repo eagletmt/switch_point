@@ -56,6 +56,17 @@ RSpec.describe SwitchPoint::Model do
         expect(Book.connection).to equal(Publisher.connection)
       end
     end
+
+    context 'with the same database name' do
+      it 'does NOT shares a connection' do
+        expect(Book.connection).to_not equal(BigData.connection)
+        Book.with_writable do
+          BigData.with_writable do
+            expect(Book.connection).to_not equal(BigData.connection)
+          end
+        end
+      end
+    end
   end
 
   describe '.with_writable' do

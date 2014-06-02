@@ -14,7 +14,7 @@ module SwitchPoint
     end
 
     def model_name(name, mode)
-      "#{mode}_#{database_name(name, mode)}".camelize
+      "#{name}_#{mode}".camelize
     end
 
     def fetch(name)
