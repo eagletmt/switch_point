@@ -142,6 +142,15 @@ RSpec.describe SwitchPoint::Model do
         expect(Note.with_writable { :bypass }).to eq(:bypass)
       end
     end
+
+    it 'affects thread-locally' do
+      Book.with_writable do
+        expect(Book).to connect_to('main_writable.sqlite3')
+        Thread.start do
+          expect(Book).to connect_to('main_readonly.sqlite3')
+        end.join
+      end
+    end
   end
 
   describe '.with_readonly' do

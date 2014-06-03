@@ -11,5 +11,12 @@ RSpec.describe SwitchPoint do
       expect(Book).to connect_to('main_writable.sqlite3')
       expect(Publisher).to connect_to('main_writable.sqlite3')
     end
+
+    it 'affects thread-globally' do
+      SwitchPoint.writable!(:main)
+      Thread.start do
+        expect(Book).to connect_to('main_writable.sqlite3')
+      end.join
+    end
   end
 end
