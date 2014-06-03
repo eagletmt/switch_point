@@ -172,6 +172,12 @@ RSpec.describe SwitchPoint::Model do
     end
   end
 
+  describe '#with_connection' do
+    it 'raises error if unknown mode is given' do
+      expect { SwitchPoint::ProxyRepository.checkout(:main).with_connection(:typo) }.to raise_error
+    end
+  end
+
   describe '.switch_name' do
     after do
       Book.switch_point_proxy.reset_name!

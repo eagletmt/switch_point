@@ -2,15 +2,18 @@ module SwitchPoint
   class Proxy
     attr_reader :initial_name
 
+    AVAILABLE_MODES = [:readonly, :writable]
+    DEFAULT_MODE = :readonly
+
     def initialize(name)
       @initial_name = name
       @current_name = name
-      [:readonly, :writable].each do |mode|
+      AVAILABLE_MODES.each do |mode|
         model = define_model(SwitchPoint.config.model_name(name, mode))
         model.establish_connection(SwitchPoint.config.database_name(name, mode))
         memorize_switch_point(name, mode, model.connection)
       end
-      @global_mode = :readonly
+      @global_mode = DEFAULT_MODE
     end
 
     def define_model(model_name)
@@ -70,6 +73,9 @@ module SwitchPoint
     end
 
     def with_connection(new_mode, &block)
+      unless AVAILABLE_MODES.include?(new_mode)
+        raise ArgumentError.new("Unknown mode: #{new_mode}")
+      end
       saved_mode = self.thread_local_mode
       self.thread_local_mode = new_mode
       block.call
