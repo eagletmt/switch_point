@@ -38,7 +38,11 @@ module SwitchPoint
     end
 
     def readonly!
-      @global_mode = :readonly
+      if thread_local_mode
+        self.thread_local_mode = :readonly
+      else
+        @global_mode = :readonly
+      end
     end
 
     def readonly?
@@ -46,7 +50,11 @@ module SwitchPoint
     end
 
     def writable!
-      @global_mode = :writable
+      if thread_local_mode
+        self.thread_local_mode = :writable
+      else
+        @global_mode = :writable
+      end
     end
 
     def writable?

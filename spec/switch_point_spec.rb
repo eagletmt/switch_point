@@ -18,5 +18,18 @@ RSpec.describe SwitchPoint do
         expect(Book).to connect_to('main_writable.sqlite3')
       end.join
     end
+
+    context 'within with block' do
+      it 'changes the current mode' do
+        Book.with_writable do
+          SwitchPoint.readonly!(:main)
+          expect(Book).to connect_to('main_readonly.sqlite3')
+        end
+        expect(Book).to connect_to('main_readonly.sqlite3')
+        Book.with_writable do
+          expect(Book).to connect_to('main_writable.sqlite3')
+        end
+      end
+    end
   end
 end
