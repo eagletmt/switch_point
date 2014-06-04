@@ -1,3 +1,7 @@
+## 0.3.0 (2014-06-04)
+- Improve thread safety
+- Raise appropriate error if unknown mode is given to with_connection
+
 ## 0.2.3 (2014-06-02)
 - Support specifying the same database name within different switch_point
 - Add Proxy#readonly? and Proxy#writable? predicate

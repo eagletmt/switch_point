@@ -21,9 +21,6 @@ Or install it yourself as:
 
 See [spec/models](spec/models.rb).
 
-## TODO
-- Thread safety
-
 ## Contributing
 
 1. Fork it ( https://github.com/eagletmt/switch_point/fork )
