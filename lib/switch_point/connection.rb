@@ -7,22 +7,44 @@ module SwitchPoint
 
     DESTRUCTIVE_METHODS.each do |method_name|
       define_method(:"#{method_name}_with_switch_point") do |*args, &block|
-        switch_point = self.pool.instance_variable_get(:@switch_point)
         parent_method = :"#{method_name}_without_switch_point"
-        if switch_point
-          proxy = ProxyRepository.find(switch_point[:name])
-          case switch_point[:mode]
-          when :readonly
-            Connection.proxy_to_writable(proxy, method_name, *args, &block)
-          when :writable
-            Connection.purge_readonly_query_cache(proxy)
-            send(parent_method, *args, &block)
-          else
-            raise RuntimeError.new("Unknown mode #{switch_point[:mode]} is given with #{name}")
-          end
+        if self.pool.equal?(ActiveRecord::Base.connection.pool)
+          Connection.handle_base_connection(self, parent_method, *args, &block)
         else
-          send(parent_method, *args, &block)
+          Connection.handle_generated_connection(self, parent_method, method_name, *args, &block)
         end
+      end
+    end
+
+    def self.handle_base_connection(conn, parent_method, *args, &block)
+      switch_points = conn.pool.instance_variable_get(:@switch_points)
+      if switch_points
+        switch_points.each do |switch_point|
+          proxy = ProxyRepository.find(switch_point[:name])
+          if switch_point[:mode] != :writable
+            raise RuntimeError.new("ActiveRecord::Base's switch_points must be writable, but #{switch_point[:name]} is #{switch_point[:mode]}")
+          end
+          purge_readonly_query_cache(proxy)
+        end
+      end
+      conn.send(parent_method, *args, &block)
+    end
+
+    def self.handle_generated_connection(conn, parent_method, method_name, *args, &block)
+      switch_point = conn.pool.instance_variable_get(:@switch_point)
+      if switch_point
+        proxy = ProxyRepository.find(switch_point[:name])
+        case switch_point[:mode]
+        when :readonly
+          proxy_to_writable(proxy, method_name, *args, &block)
+        when :writable
+          purge_readonly_query_cache(proxy)
+          conn.send(parent_method, *args, &block)
+        else
+          raise RuntimeError.new("Unknown mode #{switch_point[:mode]} is given with #{name}")
+        end
+      else
+        conn.send(parent_method, *args, &block)
       end
     end
 

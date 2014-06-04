@@ -11,6 +11,10 @@ SwitchPoint.configure do |config|
   config.define_switch_point :special,
     readonly: :main_readonly_special,
     writable: :main_writable
+  config.define_switch_point :nanika1,
+    readonly: :main_readonly
+  config.define_switch_point :nanika2,
+    readonly: :main_readonly
 end
 
 class Book < ActiveRecord::Base
@@ -34,6 +38,14 @@ class BigData < ActiveRecord::Base
 end
 
 class Note < ActiveRecord::Base
+end
+
+class Nanika1 < ActiveRecord::Base
+  use_switch_point :nanika1
+end
+
+class Nanika2 < ActiveRecord::Base
+  use_switch_point :nanika2
 end
 
 base = { adapter: 'sqlite3' }

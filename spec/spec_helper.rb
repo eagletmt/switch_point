@@ -24,11 +24,12 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    sql = 'CREATE TABLE books (id integer primary key autoincrement)'
-    Book.connection.execute(sql)
     Book.with_writable do
-      Book.connection.execute(sql)
+      Book.connection.execute('CREATE TABLE books (id integer primary key autoincrement)')
     end
+    FileUtils.cp('main_writable.sqlite3', 'main_readonly.sqlite3')
+
+    Note.connection.execute('CREATE TABLE notes (id integer primary key autoincrement)')
   end
 
   config.after(:suite) do

@@ -14,7 +14,11 @@ module SwitchPoint
     end
 
     def model_name(name, mode)
-      "#{name}_#{mode}".camelize
+      if switch_points[name][mode]
+        "#{name}_#{mode}".camelize
+      else
+        nil
+      end
     end
 
     def fetch(name)
@@ -28,12 +32,15 @@ module SwitchPoint
     private
 
     def assert_valid_config!(config)
-      [:readonly, :writable].each do |mode|
-        unless config.has_key?(mode)
-          raise ArgumentError.new("#{mode} key is required")
-        end
-        unless config[mode].is_a?(Symbol)
-          raise TypeError.new("#{mode}'s value must be Symbol")
+      unless config.has_key?(:readonly)
+        raise ArgumentError.new(":readonly key is required")
+      end
+      unless config[:readonly].is_a?(Symbol)
+        raise TypeError.new(":readonly's value must be Symbol")
+      end
+      if config.has_key?(:writable)
+        unless config[:writable].is_a?(Symbol)
+          raise TypeError.new(":writable's value must be Symbol")
         end
       end
       nil

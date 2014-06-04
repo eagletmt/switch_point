@@ -9,22 +9,35 @@ module SwitchPoint
       @initial_name = name
       @current_name = name
       AVAILABLE_MODES.each do |mode|
-        model = define_model(SwitchPoint.config.model_name(name, mode))
-        model.establish_connection(SwitchPoint.config.database_name(name, mode))
+        model = define_model(name, mode)
         memorize_switch_point(name, mode, model.connection)
       end
       @global_mode = DEFAULT_MODE
     end
 
-    def define_model(model_name)
+    def define_model(name, mode)
       model = Class.new(ActiveRecord::Base)
-      Proxy.const_set(model_name, model)
+      model_name = SwitchPoint.config.model_name(name, mode)
+      if model_name
+        Proxy.const_set(model_name, model)
+        model.establish_connection(SwitchPoint.config.database_name(name, mode))
+      end
       model
     end
 
     def memorize_switch_point(name, mode, connection)
       switch_point = { name: name, mode: mode }
-      connection.pool.instance_variable_set(:@switch_point, switch_point)
+      pool = connection.pool
+      if pool.equal?(ActiveRecord::Base.connection.pool)
+        if mode != :writable
+          raise RuntimeError.new("ActiveRecord::Base's switch_points must be writable, but #{name} is #{mode}")
+        end
+        switch_points = pool.instance_variable_get(:@switch_points) || []
+        switch_points << switch_point
+        pool.instance_variable_set(:@switch_points, switch_points)
+      else
+        pool.instance_variable_set(:@switch_point, switch_point)
+      end
     end
 
     def thread_local_mode
@@ -103,7 +116,12 @@ module SwitchPoint
 
     def connection
       ProxyRepository.checkout(@current_name) # Ensure the target proxy is created
-      Proxy.const_get(SwitchPoint.config.model_name(@current_name, mode)).connection
+      model_name = SwitchPoint.config.model_name(@current_name, mode)
+      if model_name
+        Proxy.const_get(model_name).connection
+      else
+        ActiveRecord::Base.connection
+      end
     end
   end
 end

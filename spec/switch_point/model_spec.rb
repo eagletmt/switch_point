@@ -68,6 +68,23 @@ RSpec.describe SwitchPoint::Model do
         end
       end
     end
+
+    context 'without :writable' do
+      it 'sends destructive queries to ActiveRecord::Base' do
+        expect(Nanika1).to connect_to('main_readonly.sqlite3')
+        Nanika1.with_writable do
+          expect(Nanika1).to connect_to('default.sqlite3')
+          expect(Nanika1.connection).to equal(ActiveRecord::Base.connection)
+        end
+      end
+
+      it 'clears all query caches' do
+        expect(Nanika1.connection).to_not equal(Nanika2.connection)
+        expect(Nanika1.connection).to receive(:clear_query_cache).once
+        expect(Nanika2.connection).to receive(:clear_query_cache).once
+        Note.create
+      end
+    end
   end
 
   describe '.with_writable' do
