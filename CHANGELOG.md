@@ -1,3 +1,7 @@
+## 0.3.1 (2014-06-04)
+- Support defaulting to writable ActiveRecord::Base connection
+    - When `:writable` key is omitted, ActiveRecord::Base is used for the writable connection.
+
 ## 0.3.0 (2014-06-04)
 - Improve thread safety
 - Raise appropriate error if unknown mode is given to with_connection
