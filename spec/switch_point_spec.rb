@@ -32,4 +32,15 @@ RSpec.describe SwitchPoint do
       end
     end
   end
+
+  describe '.with_writable' do
+    it 'changes connection' do
+      SwitchPoint.with_writable(:main) do
+        expect(Book).to connect_to('main_writable.sqlite3')
+        expect(Publisher).to connect_to('main_writable.sqlite3')
+      end
+      expect(Book).to connect_to('main_readonly.sqlite3')
+      expect(Publisher).to connect_to('main_readonly.sqlite3')
+    end
+  end
 end

@@ -31,6 +31,18 @@ module SwitchPoint
     def writable!(name)
       ProxyRepository.checkout(name).writable!
     end
+
+    def with_readonly(name, &block)
+      with_connection(name, :readonly, &block)
+    end
+
+    def with_writable(name, &block)
+      with_connection(name, :writable, &block)
+    end
+
+    def with_connection(name, mode, &block)
+      ProxyRepository.checkout(name).with_connection(mode, &block)
+    end
   end
   extend ClassMethods
 end
