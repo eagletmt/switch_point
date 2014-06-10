@@ -21,6 +21,15 @@ Or install it yourself as:
 
 See [spec/models](spec/models.rb).
 
+## Internals
+There's a proxy which holds two connections: readonly one and writable one.
+A proxy has a thread-local state indicating the current mode: readonly or writable.
+
+Each ActiveRecord model refers to a proxy.
+`ActiveRecord::Base.connection` is hooked and delegated to the referred proxy.
+
+![switch_point](assets/switch_point.svg)
+
 ## Contributing
 
 1. Fork it ( https://github.com/eagletmt/switch_point/fork )
