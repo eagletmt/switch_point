@@ -28,7 +28,7 @@ A proxy has a thread-local state indicating the current mode: readonly or writab
 Each ActiveRecord model refers to a proxy.
 `ActiveRecord::Base.connection` is hooked and delegated to the referred proxy.
 
-![switch_point](assets/switch_point.svg)
+![switch_point](http://gyazo.wanko.cc/switch_point.svg)
 
 ## Contributing
 
