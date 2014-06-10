@@ -28,7 +28,16 @@ A proxy has a thread-local state indicating the current mode: readonly or writab
 Each ActiveRecord model refers to a proxy.
 `ActiveRecord::Base.connection` is hooked and delegated to the referred proxy.
 
+When the writable connection is requested to execute destructive query, the readonly connection clears its query cache.
+
 ![switch_point](http://gyazo.wanko.cc/switch_point.svg)
+
+### Special case: ActiveRecord::Base.connection
+Basically, each connection managed by a proxy isn't shared between proxies.
+But there's one exception: ActiveRecord::Base.
+
+If `:writable` key is omitted (e.g., Nanika1 model in spec/models), it uses `ActiveRecord::Base.connection` as writable one.
+When `ActiveRecord::Base.connection` is requested to execute destructive query, all readonly connections managed by a proxy which uses `ActiveRecord::Base.connection` as a writable connection clear query cache.
 
 ## Contributing
 
