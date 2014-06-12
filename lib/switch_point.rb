@@ -32,16 +32,20 @@ module SwitchPoint
       ProxyRepository.checkout(name).writable!
     end
 
-    def with_readonly(name, &block)
-      with_connection(name, :readonly, &block)
+    def with_readonly(*names, &block)
+      with_connection(*names, :readonly, &block)
     end
 
-    def with_writable(name, &block)
-      with_connection(name, :writable, &block)
+    def with_writable(*names, &block)
+      with_connection(*names, :writable, &block)
     end
 
-    def with_connection(name, mode, &block)
-      ProxyRepository.checkout(name).with_connection(mode, &block)
+    def with_connection(*names, mode, &block)
+      names.inject(block) do |func, name|
+        lambda do
+          ProxyRepository.checkout(name).with_connection(mode, &func)
+        end
+      end.call
     end
   end
   extend ClassMethods
