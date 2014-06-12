@@ -41,7 +41,7 @@ module SwitchPoint
     end
 
     def with_connection(mode, *names, &block)
-      names.inject(block) do |func, name|
+      names.reverse.inject(block) do |func, name|
         lambda do
           ProxyRepository.checkout(name).with_connection(mode, &func)
         end
