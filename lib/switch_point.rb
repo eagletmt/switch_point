@@ -33,14 +33,14 @@ module SwitchPoint
     end
 
     def with_readonly(*names, &block)
-      with_connection(*names, :readonly, &block)
+      with_connection(:readonly, *names, &block)
     end
 
     def with_writable(*names, &block)
-      with_connection(*names, :writable, &block)
+      with_connection(:writable, *names, &block)
     end
 
-    def with_connection(*names, mode, &block)
+    def with_connection(mode, *names, &block)
       names.inject(block) do |func, name|
         lambda do
           ProxyRepository.checkout(name).with_connection(mode, &func)
