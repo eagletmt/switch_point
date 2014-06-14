@@ -17,6 +17,8 @@ SwitchPoint.configure do |config|
     readonly: :main_readonly
 end
 
+require 'active_record'
+
 class Book < ActiveRecord::Base
   use_switch_point :main
 end
