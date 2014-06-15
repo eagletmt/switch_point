@@ -1,8 +1,20 @@
 module SwitchPoint
   class Config
+    def initialize
+      self.auto_writable = false
+    end
+
     def define_switch_point(name, config)
       assert_valid_config!(config)
       switch_points[name] = config
+    end
+
+    def auto_writable=(val)
+      @auto_writable = val
+    end
+
+    def auto_writable?
+      @auto_writable
     end
 
     def switch_points

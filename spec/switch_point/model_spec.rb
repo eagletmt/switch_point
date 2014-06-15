@@ -31,16 +31,39 @@ RSpec.describe SwitchPoint::Model do
       expect(Book.switch_point_proxy).to be_readonly
     end
 
-    it 'sends destructive queries to writable' do
-      Book.create
-      Book.with_readonly { expect(Book.count).to eq(0) }
-      Book.with_writable { expect(Book.count).to eq(1) }
+    context 'when auto_writable is disabled' do
+      it 'raises error when destructive query is requested in readonly mode' do
+        expect { Book.create }.to raise_error(SwitchPoint::Connection::ReadonlyError)
+        expect { Book.with_readonly { Book.create } }.to raise_error(SwitchPoint::Connection::ReadonlyError)
+        expect { Book.with_writable { Book.create } }.to_not raise_error
+      end
+    end
+
+    context 'when auto_writable is enabled' do
+      around do |example|
+        SwitchPoint.configure do |config|
+          config.auto_writable = true
+        end
+        example.run
+        SwitchPoint.configure do |config|
+          config.auto_writable = false
+        end
+      end
+
+      it 'sends destructive queries to writable' do
+        expect { Book.create }.to_not raise_error
+        expect { Book.with_readonly { Book.create } }.to_not raise_error
+        Book.with_readonly { expect(Book.count).to eq(0) }
+        Book.with_writable { expect(Book.count).to eq(2) }
+      end
     end
 
     it 'works with newly checked-out connection' do
       Thread.start do
         expect(Book.connection.pool.connections.size).to be > 1 # Assertion
-        Book.create
+        Book.with_writable do
+          Book.create
+        end
         Book.with_readonly { expect(Book.count).to eq(0) }
         Book.with_writable { expect(Book.count).to eq(1) }
       end.join

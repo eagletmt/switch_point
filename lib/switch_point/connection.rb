@@ -16,6 +16,9 @@ module SwitchPoint
       end
     end
 
+    class ReadonlyError < StandardError
+    end
+
     def self.handle_base_connection(conn, parent_method, *args, &block)
       switch_points = conn.pool.instance_variable_get(:@switch_points)
       if switch_points
@@ -36,7 +39,11 @@ module SwitchPoint
         proxy = ProxyRepository.find(switch_point[:name])
         case switch_point[:mode]
         when :readonly
-          proxy_to_writable(proxy, method_name, *args, &block)
+          if SwitchPoint.config.auto_writable?
+            proxy_to_writable(proxy, method_name, *args, &block)
+          else
+            raise ReadonlyError.new("#{switch_point[:name]} is readonly, but destructive method #{method_name} is called")
+          end
         when :writable
           purge_readonly_query_cache(proxy)
           conn.send(parent_method, *args, &block)

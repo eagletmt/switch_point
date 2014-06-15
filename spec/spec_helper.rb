@@ -50,7 +50,9 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    Book.delete_all # This queries to writable database
+    Book.with_writable do
+      Book.delete_all
+    end
     FileUtils.cp('main_writable.sqlite3', 'main_readonly.sqlite3')
   end
 end
