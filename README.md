@@ -24,6 +24,22 @@ Or install it yourself as:
 
 See [spec/models](spec/models.rb).
 
+### auto_writable
+`auto_writable` is disabled by default.
+
+When `auto_writable` is enabled, destructive queries is sent to writable connection even in readonly mode.
+But it does NOT work well on transactions.
+
+Suppose `after_save` callback is set to User model. When `User.create` is called, it proceeds as follows.
+
+1. BEGIN TRANSACTION is sent to READONLY connection.
+2. switch_point switches the connection to WRITABLE.
+3. CREATE statement is sent to WRITABLE connection.
+4. switch_point reset the connection to READONLY.
+5. after_save callback is called.
+    - At this point, the connection is READONLY and in a transaction.
+6. COMMIT TRANSACTION is sent to READONLY connection.
+
 ## Internals
 There's a proxy which holds two connections: readonly one and writable one.
 A proxy has a thread-local state indicating the current mode: readonly or writable.

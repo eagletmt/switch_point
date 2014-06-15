@@ -21,6 +21,12 @@ require 'active_record'
 
 class Book < ActiveRecord::Base
   use_switch_point :main
+  after_save :do_after_save
+
+  private
+
+  def do_after_save
+  end
 end
 
 class Publisher < ActiveRecord::Base

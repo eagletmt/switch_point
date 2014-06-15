@@ -56,6 +56,15 @@ RSpec.describe SwitchPoint::Model do
         Book.with_readonly { expect(Book.count).to eq(0) }
         Book.with_writable { expect(Book.count).to eq(2) }
       end
+
+      it 'executes after_save callback in readonly mode!' do
+        book = Book.new
+        expect(book).to receive(:do_after_save) {
+          expect(Book.switch_point_proxy).to be_readonly
+          expect(Book.connection.open_transactions).to eq(1)
+        }
+        book.save!
+      end
     end
 
     it 'works with newly checked-out connection' do
