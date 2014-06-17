@@ -34,7 +34,7 @@ Suppose `after_save` callback is set to User model. When `User.create` is called
 
 1. BEGIN TRANSACTION is sent to READONLY connection.
 2. switch_point switches the connection to WRITABLE.
-3. CREATE statement is sent to WRITABLE connection.
+3. INSERT statement is sent to WRITABLE connection.
 4. switch_point reset the connection to READONLY.
 5. after_save callback is called.
     - At this point, the connection is READONLY and in a transaction.
