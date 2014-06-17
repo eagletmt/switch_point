@@ -1,3 +1,8 @@
+## 0.4.0 (2014-06-17)
+- auto_writable is disabled by default
+    - To restore the previous behavior, set `config.auto_writable = true`.
+- Add shorthand methods `SwitchPoint.with_readonly`, `SwitchPoint.with_writable`
+
 ## 0.3.1 (2014-06-04)
 - Support defaulting to writable ActiveRecord::Base connection
     - When `:writable` key is omitted, ActiveRecord::Base is used for the writable connection.
