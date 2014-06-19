@@ -123,7 +123,9 @@ RSpec.describe SwitchPoint::Model do
         expect(Nanika3).to connect_to('comment_writable.sqlite3')
         Nanika3.with_writable do
           expect(Nanika3).to connect_to('comment_writable.sqlite3')
+          Nanika3.create
         end
+        expect(Nanika3.count).to eq(1)
         expect(Nanika3.with_readonly { Nanika3.connection }).to equal(Nanika3.with_writable { Nanika3.connection })
       end
     end

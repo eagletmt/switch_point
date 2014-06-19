@@ -40,6 +40,8 @@ module SwitchPoint
         switch_points = pool.instance_variable_get(:@switch_points) || []
         switch_points << switch_point
         pool.instance_variable_set(:@switch_points, switch_points)
+      elsif pool.instance_variable_defined?(:@switch_point)
+        # Only :writable is specified
       else
         pool.instance_variable_set(:@switch_point, switch_point)
       end
@@ -120,13 +122,15 @@ module SwitchPoint
     end
 
     def connection
-      proxy = ProxyRepository.checkout(@current_name) # Ensure the target proxy is created
+      ProxyRepository.checkout(@current_name) # Ensure the target proxy is created
       model_name = SwitchPoint.config.model_name(@current_name, mode)
       if model_name
         Proxy.const_get(model_name).connection
       elsif mode == :readonly
         # When only writable is specified, re-use writable connection.
-        Proxy.const_get(SwitchPoint.config.model_name(@current_name, :writable)).connection
+        with_writable do
+          connection
+        end
       else
         ActiveRecord::Base.connection
       end
