@@ -73,3 +73,12 @@ ActiveRecord::Base.configurations = {
   'default' => base.merge(database: 'default.sqlite3')
 }
 ActiveRecord::Base.establish_connection(:default)
+
+# XXX: Check connection laziness
+[Book, User, Note, Nanika1, ActiveRecord::Base].each do |model|
+  model.with_writable do
+    if model.connected?
+      raise "#{model.name} didn't establish connection lazily!"
+    end
+  end
+end
