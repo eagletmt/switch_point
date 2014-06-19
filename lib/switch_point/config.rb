@@ -44,11 +44,13 @@ module SwitchPoint
     private
 
     def assert_valid_config!(config)
-      unless config.has_key?(:readonly)
-        raise ArgumentError.new(":readonly key is required")
+      unless config.has_key?(:readonly) || config.has_key?(:writable)
+        raise ArgumentError.new(':readonly or :writable must be specified')
       end
-      unless config[:readonly].is_a?(Symbol)
-        raise TypeError.new(":readonly's value must be Symbol")
+      if config.has_key?(:readonly)
+        unless config[:readonly].is_a?(Symbol)
+          raise TypeError.new(":readonly's value must be Symbol")
+        end
       end
       if config.has_key?(:writable)
         unless config[:writable].is_a?(Symbol)

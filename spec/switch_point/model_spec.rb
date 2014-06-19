@@ -117,6 +117,16 @@ RSpec.describe SwitchPoint::Model do
         Note.create
       end
     end
+
+    context 'without :readonly' do
+      it 'sends all queries to :writable' do
+        expect(Nanika3).to connect_to('comment_writable.sqlite3')
+        Nanika3.with_writable do
+          expect(Nanika3).to connect_to('comment_writable.sqlite3')
+        end
+        expect(Nanika3.with_readonly { Nanika3.connection }).to equal(Nanika3.with_writable { Nanika3.connection })
+      end
+    end
   end
 
   describe '.with_writable' do

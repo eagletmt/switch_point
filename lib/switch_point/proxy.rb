@@ -2,7 +2,7 @@ module SwitchPoint
   class Proxy
     attr_reader :initial_name
 
-    AVAILABLE_MODES = [:readonly, :writable]
+    AVAILABLE_MODES = [:writable, :readonly]
     DEFAULT_MODE = :readonly
 
     def initialize(name)
@@ -16,13 +16,18 @@ module SwitchPoint
     end
 
     def define_model(name, mode)
-      model = Class.new(ActiveRecord::Base)
       model_name = SwitchPoint.config.model_name(name, mode)
       if model_name
+        model = Class.new(ActiveRecord::Base)
         Proxy.const_set(model_name, model)
         model.establish_connection(SwitchPoint.config.database_name(name, mode))
+        model
+      elsif mode == :readonly
+        # Re-use writable connection
+        Proxy.const_get(SwitchPoint.config.model_name(name, :writable))
+      else
+        Class.new(ActiveRecord::Base)
       end
-      model
     end
 
     def memorize_switch_point(name, mode, connection)
@@ -115,10 +120,13 @@ module SwitchPoint
     end
 
     def connection
-      ProxyRepository.checkout(@current_name) # Ensure the target proxy is created
+      proxy = ProxyRepository.checkout(@current_name) # Ensure the target proxy is created
       model_name = SwitchPoint.config.model_name(@current_name, mode)
       if model_name
         Proxy.const_get(model_name).connection
+      elsif mode == :readonly
+        # When only writable is specified, re-use writable connection.
+        Proxy.const_get(SwitchPoint.config.model_name(@current_name, :writable)).connection
       else
         ActiveRecord::Base.connection
       end
