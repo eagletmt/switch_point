@@ -1,3 +1,7 @@
+## 0.4.2 (2014-06-19)
+- Establish connection lazily
+    - Just like ActiveRecord::Base, real connection isn't created until `.connection` is called
+
 ## 0.4.1 (2014-06-19)
 - Support :writable only configuration
 
