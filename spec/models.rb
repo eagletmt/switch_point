@@ -76,8 +76,20 @@ ActiveRecord::Base.establish_connection(:default)
 
 # XXX: Check connection laziness
 [Book, User, Note, Nanika1, ActiveRecord::Base].each do |model|
+  if model.connected?
+    raise "ActiveRecord::Base didn't establish connection lazily!"
+  end
+end
+ActiveRecord::Base.connection # Create connection
+
+[Book, User, Nanika3].each do |model|
   model.with_writable do
-    if model.connected?
+    if model.switch_point_proxy.connected?
+      raise "#{model.name} didn't establish connection lazily!"
+    end
+  end
+  model.with_readonly do
+    if model.switch_point_proxy.connected?
       raise "#{model.name} didn't establish connection lazily!"
     end
   end

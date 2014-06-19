@@ -40,6 +40,11 @@ Suppose `after_save` callback is set to User model. When `User.create` is called
     - At this point, the connection is READONLY and in a transaction.
 6. COMMIT TRANSACTION is sent to READONLY connection.
 
+### connection-related methods of model
+Model has several connection-related methods: `connection_handler`, `connection_pool`, `connected?` and so on.
+Since only `connection` method is monkey-patched, other connection-related methods doesn't work properly.
+If you'd like to use those methods, send it to `Model.switch_point_proxy.model_for_connection`.
+
 ## Internals
 There's a proxy which holds two connections: readonly one and writable one.
 A proxy has a thread-local state indicating the current mode: readonly or writable.

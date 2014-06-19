@@ -120,19 +120,27 @@ module SwitchPoint
       @current_name = @initial_name
     end
 
-    def connection
+    def model_for_connection
       ProxyRepository.checkout(@current_name) # Ensure the target proxy is created
       model_name = SwitchPoint.config.model_name(@current_name, mode)
       if model_name
-        Proxy.const_get(model_name).connection
+        Proxy.const_get(model_name)
       elsif mode == :readonly
         # When only writable is specified, re-use writable connection.
         with_writable do
-          connection
+          model_for_connection
         end
       else
-        ActiveRecord::Base.connection
+        ActiveRecord::Base
       end
+    end
+
+    def connection
+      model_for_connection.connection
+    end
+
+    def connected?
+      model_for_connection.connected?
     end
   end
 end
