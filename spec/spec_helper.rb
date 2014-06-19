@@ -41,6 +41,8 @@ RSpec.configure do |config|
     FileUtils.cp('main_writable.sqlite3', 'main_readonly.sqlite3')
 
     Note.connection.execute('CREATE TABLE notes (id integer primary key autoincrement)')
+
+    Nanika3.connection.execute('CREATE TABLE nanika3s (id integer primary key)')
   end
 
   config.after(:suite) do
@@ -54,6 +56,8 @@ RSpec.configure do |config|
       Book.delete_all
     end
     FileUtils.cp('main_writable.sqlite3', 'main_readonly.sqlite3')
+
+    Nanika3.delete_all
   end
 end
 
