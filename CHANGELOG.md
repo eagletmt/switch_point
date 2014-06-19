@@ -1,3 +1,6 @@
+## 0.4.1 (2014-06-19)
+- Support :writable only configuration
+
 ## 0.4.0 (2014-06-17)
 - auto_writable is disabled by default
     - To restore the previous behavior, set `config.auto_writable = true`.
