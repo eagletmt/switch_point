@@ -10,7 +10,7 @@ module SwitchPoint
       @current_name = name
       AVAILABLE_MODES.each do |mode|
         model = define_model(name, mode)
-        memorize_switch_point(name, mode, model.connection)
+        memorize_switch_point(name, mode, model.connection_pool)
       end
       @global_mode = DEFAULT_MODE
     end
@@ -30,10 +30,9 @@ module SwitchPoint
       end
     end
 
-    def memorize_switch_point(name, mode, connection)
+    def memorize_switch_point(name, mode, pool)
       switch_point = { name: name, mode: mode }
-      pool = connection.pool
-      if pool.equal?(ActiveRecord::Base.connection.pool)
+      if pool.equal?(ActiveRecord::Base.connection_pool)
         if mode != :writable
           raise RuntimeError.new("ActiveRecord::Base's switch_points must be writable, but #{name} is #{mode}")
         end
