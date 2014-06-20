@@ -2,6 +2,9 @@ SwitchPoint.configure do |config|
   config.define_switch_point :main,
     readonly: :main_readonly,
     writable: :main_writable
+  config.define_switch_point :main2,
+    readonly: :main2_readonly,
+    writable: :main2_writable
   config.define_switch_point :user,
     readonly: :user,
     writable: :user
@@ -29,6 +32,14 @@ class Book < ActiveRecord::Base
 
   def do_after_save
   end
+end
+
+class Book2 < ActiveRecord::Base
+  use_switch_point :main
+end
+
+class Book3 < ActiveRecord::Base
+  use_switch_point :main2
 end
 
 class Publisher < ActiveRecord::Base
@@ -66,6 +77,8 @@ base = { adapter: 'sqlite3' }
 ActiveRecord::Base.configurations = {
   'main_readonly' => base.merge(database: 'main_readonly.sqlite3'),
   'main_writable' => base.merge(database: 'main_writable.sqlite3'),
+  'main2_readonly' => base.merge(database: 'main2_readonly.sqlite3'),
+  'main2_writable' => base.merge(database: 'main2_writable.sqlite3'),
   'main_readonly_special' => base.merge(database: 'main_readonly_special.sqlite3'),
   'user' => base.merge(database: 'user.sqlite3'),
   'comment_readonly' => base.merge(database: 'comment_readonly.sqlite3'),

@@ -261,4 +261,112 @@ RSpec.describe SwitchPoint::Model do
       end
     end
   end
+
+  describe '.transaction_with' do
+    context "when each model has a same writable" do
+      before do
+        @before_book_count  = Book.count
+        @before_book2_count = Book2.count
+
+        Book.transaction_with(Book2) do
+          new_book  = Book.create
+          new_book2 = Book2.create
+        end
+
+        @after_book_count = Book.with_writable do
+          Book.count
+        end
+        @after_book2_count = Book2.with_writable do
+          Book2.count
+        end
+      end
+
+      it 'should create a new record' do
+        expect(
+          Book.with_writable do
+            Book.count
+          end
+        ).to be > @before_book_count
+
+        expect(
+          Book2.with_writable do
+            Book2.count
+          end
+        ).to be > @before_book2_count
+      end
+    end
+
+    context "when each model has a other writable" do
+      it {
+        expect {
+          Book.transaction_with(Book3) do
+            new_book  = Book.create
+            new_book3 = Book3.create
+          end
+        }.to raise_error RuntimeError
+      }
+    end
+
+    context "when raise exception in transaction that include some model, and models each have other writable" do
+      before do
+        @before_book_count  = Book.count
+        @before_book3_count = Book3.count
+
+        Book.transaction_with(Book2) do
+          new_book  = Book.create
+          new_book3 = Book3.with_writable do
+            Book3.create
+          end
+          raise ActiveRecord::Rollback
+        end
+      end
+
+      it 'Book should not create a new record (rollbacked)' do
+        expect(
+          Book.with_writable do
+            Book.count
+          end
+        ).to eq @before_book_count
+      end
+
+      it 'Book3 should create a new record (not rollbacked)' do
+        expect(
+          Book3.with_writable do
+            Book3.count
+          end
+        ).to be > @before_book3_count
+      end
+    end
+
+    context "when nested transaction_with then parent transaction rollbacked" do
+      before do
+        @before_book_count  = Book.count
+        @before_book3_count = Book3.count
+
+        Book.transaction_with do
+          Book.create
+
+          Book3.transaction_with do
+            Book3.create
+          end
+
+          raise ActiveRecord::Rollback
+        end
+
+        it {
+          expect(
+            Book.with_writable do
+              Book.count
+            end
+          ).to be = @before_book_count
+
+          expect(
+            Book3.with_writable do
+              Book3.count
+            end
+          ).to be > @before_book3_count
+        }
+      end
+    end
+  end
 end
