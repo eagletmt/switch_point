@@ -47,10 +47,35 @@ module SwitchPoint
         end
       end
 
+      def transaction_with(*models, &block)
+        unless can_transaction_with?(*models)
+          raise RuntimeError.new("switch_point's model names must be consistent")
+        end
+
+        with_writable do
+          self.transaction(&block)
+        end
+      end
+
       private
 
       def assert_existing_switch_point!(name)
         SwitchPoint.config.fetch(name)
+      end
+
+      def can_transaction_with?(*models)
+        writable_switch_points = [self, *models].map do |model|
+          if model.instance_variable_defined?(:@switch_point_name)
+            SwitchPoint.config.model_name(
+              model.instance_variable_get(:@switch_point_name),
+              :writable
+            )
+          else
+            nil
+          end
+        end
+
+        writable_switch_points.uniq.size == 1
       end
     end
   end
