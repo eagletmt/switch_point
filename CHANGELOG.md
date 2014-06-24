@@ -1,3 +1,6 @@
+## 0.4.3 (2014-06-24)
+- Add Model.transaction_with method (#2, @ryopeko)
+
 ## 0.4.2 (2014-06-19)
 - Establish connection lazily
     - Just like ActiveRecord::Base, real connection isn't created until `.connection` is called
