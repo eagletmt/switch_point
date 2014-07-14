@@ -20,7 +20,7 @@ module SwitchPoint
     end
 
     def self.handle_base_connection(conn, parent_method, *args, &block)
-      switch_points = conn.pool.instance_variable_get(:@switch_points)
+      switch_points = conn.pool.spec.config[:switch_points]
       if switch_points
         switch_points.each do |switch_point|
           proxy = ProxyRepository.find(switch_point[:name])
@@ -34,7 +34,7 @@ module SwitchPoint
     end
 
     def self.handle_generated_connection(conn, parent_method, method_name, *args, &block)
-      switch_point = conn.pool.instance_variable_get(:@switch_point)
+      switch_point = conn.pool.spec.config[:switch_point]
       if switch_point
         proxy = ProxyRepository.find(switch_point[:name])
         case switch_point[:mode]

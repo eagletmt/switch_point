@@ -36,13 +36,13 @@ module SwitchPoint
         if mode != :writable
           raise RuntimeError.new("ActiveRecord::Base's switch_points must be writable, but #{name} is #{mode}")
         end
-        switch_points = pool.instance_variable_get(:@switch_points) || []
+        switch_points = pool.spec.config[:switch_points] || []
         switch_points << switch_point
-        pool.instance_variable_set(:@switch_points, switch_points)
-      elsif pool.instance_variable_defined?(:@switch_point)
+        pool.spec.config[:switch_points] = switch_points
+      elsif pool.spec.config.has_key?(:switch_point)
         # Only :writable is specified
       else
-        pool.instance_variable_set(:@switch_point, switch_point)
+        pool.spec.config[:switch_point] = switch_point
       end
     end
 
