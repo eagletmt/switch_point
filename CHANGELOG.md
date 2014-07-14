@@ -1,3 +1,7 @@
+## 0.4.4 (2014-07-14)
+- Memorize switch_point config to ConnectionSpecification#config instead of ConnectionPool
+    - To support multi-threaded environment since Rails 4.0.
+
 ## 0.4.3 (2014-06-24)
 - Add Model.transaction_with method (#2, @ryopeko)
 
