@@ -84,14 +84,14 @@ module SwitchPoint
     end
 
     def with_readonly(&block)
-      with_connection(:readonly, &block)
+      with_mode(:readonly, &block)
     end
 
     def with_writable(&block)
-      with_connection(:writable, &block)
+      with_mode(:writable, &block)
     end
 
-    def with_connection(new_mode, &block)
+    def with_mode(new_mode, &block)
       unless AVAILABLE_MODES.include?(new_mode)
         raise ArgumentError.new("Unknown mode: #{new_mode}")
       end
