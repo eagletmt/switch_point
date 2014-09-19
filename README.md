@@ -21,8 +21,72 @@ Or install it yourself as:
     $ gem install switch_point
 
 ## Usage
+Suppose you have 4 databases: db-blog-master, db-blog-slave, db-comment-master and db-comment-slave.
+Article model and Category model are stored in db-blog-{master,slave} and Comment model is stored in db-comment-{master,slave}.
 
-See [spec/models](spec/models.rb).
+### Configuration
+In database.yml:
+
+```yaml
+production_blog_master:
+  adapter: mysql2
+  username: blog_writable
+  host: db-blog-master
+production_blog_slave:
+  adapter: mysql2
+  username: blog_readonly
+  host: db-blog-slave
+production_comment_master:
+    ...
+```
+
+In initializer:
+
+```ruby
+SwitchPoint.configure do |config|
+  config.define_switch_point :blog,
+    readonly: :"#{Rails.env}_blog_readonly",
+    writable: :"#{Rails.env}_blog_writable"
+  config.define_switch_point :comment,
+    readonly: :"#{Rails.env}_comment_readonly",
+    writable: :"#{Rails.env}_comment_writable"
+end
+```
+
+In models:
+
+```ruby
+class Article < ActiveRecord::Base
+  use_switch_point :blog
+end
+
+class Category < ActiveRecord::Base
+  use_switch_point :blog
+end
+
+class Comment < ActiveRecord::Base
+  use_switch_point :comment
+end
+```
+
+### Switching connections
+
+```ruby
+Article.with_readonly { Article.first } # Read from db-blog-slave
+Category.with_readonly { Category.first } # Also read from db-blog-slave
+Comment.with_readonly { Comment.first } # Read from db-comment-slave
+
+Article.with_readonly do
+  article = Article.first  # Read from db-blog-slave
+  article.title = 'new title'
+  Article.with_writable do
+    article.save!  # Write to db-blog-master
+    article.reload  # Read from db-blog-master
+  end
+end
+```
+
+Note that Article and Category shares their connections.
 
 ### auto_writable
 `auto_writable` is disabled by default.
