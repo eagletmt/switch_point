@@ -45,11 +45,11 @@ In initializer:
 ```ruby
 SwitchPoint.configure do |config|
   config.define_switch_point :blog,
-    readonly: :"#{Rails.env}_blog_readonly",
-    writable: :"#{Rails.env}_blog_writable"
+    readonly: :"#{Rails.env}_blog_slave",
+    writable: :"#{Rails.env}_blog_master"
   config.define_switch_point :comment,
-    readonly: :"#{Rails.env}_comment_readonly",
-    writable: :"#{Rails.env}_comment_writable"
+    readonly: :"#{Rails.env}_comment_slave",
+    writable: :"#{Rails.env}_comment_master"
 end
 ```
 
