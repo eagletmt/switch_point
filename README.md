@@ -82,11 +82,14 @@ Article.with_readonly do
   Article.with_writable do
     article.save!  # Write to db-blog-master
     article.reload  # Read from db-blog-master
+    Category.first  # Read from db-blog-master
   end
 end
 ```
 
 Note that Article and Category shares their connections.
+
+## Notes
 
 ### auto_writable
 `auto_writable` is disabled by default.
