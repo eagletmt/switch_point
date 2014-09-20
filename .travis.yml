@@ -1,7 +1,8 @@
 language: ruby
 rvm:
   - 2.0.0
-  - 2.1.1
+  - 2.1
+  - 2.2
   - ruby-head
 gemfile:
   - gemfiles/rails_3.2.gemfile
