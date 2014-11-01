@@ -42,8 +42,10 @@ module SwitchPoint
       def switch_point_proxy
         if @switch_point_name
           ProxyRepository.checkout(@switch_point_name)
-        else
+        elsif self == ActiveRecord::Base
           nil
+        else
+          superclass.switch_point_proxy
         end
       end
 

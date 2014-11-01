@@ -101,6 +101,35 @@ RSpec.describe SwitchPoint::Model do
       end
     end
 
+    context 'when superclass uses use_switch_point' do
+      context 'without use_switch_point in derived class' do
+        it 'inherits switch_point configuration' do
+          expect(DerivedNanika1).to connect_to('main_readonly.sqlite3')
+        end
+
+        it 'shares connection with superclass' do
+          expect(DerivedNanika1.connection).to equal(AbstractNanika.connection)
+        end
+      end
+
+      context 'with use_switch_point in derived class' do
+        it 'overrides superclass' do
+          expect(DerivedNanika2).to connect_to('main2_readonly.sqlite3')
+        end
+      end
+
+      context 'when superclass changes switch_point' do
+        after do
+          AbstractNanika.use_switch_point :main
+        end
+
+        it 'follows' do
+          AbstractNanika.use_switch_point :main2
+          expect(DerivedNanika1).to connect_to('main2_readonly.sqlite3')
+        end
+      end
+    end
+
     context 'without :writable' do
       it 'sends destructive queries to ActiveRecord::Base' do
         expect(Nanika1).to connect_to('main_readonly.sqlite3')

@@ -73,6 +73,18 @@ class Nanika3 < ActiveRecord::Base
   use_switch_point :nanika3
 end
 
+class AbstractNanika < ActiveRecord::Base
+  use_switch_point :main
+  self.abstract_class = true
+end
+
+class DerivedNanika1 < AbstractNanika
+end
+
+class DerivedNanika2 < AbstractNanika
+  use_switch_point :main2
+end
+
 base = { adapter: 'sqlite3' }
 ActiveRecord::Base.configurations = {
   'main_readonly' => base.merge(database: 'main_readonly.sqlite3'),
