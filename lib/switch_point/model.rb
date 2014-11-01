@@ -11,7 +11,7 @@ module SwitchPoint
 
     module ClassMethods
       def connection_with_switch_point
-        if @switch_point_name
+        if switch_point_proxy
           switch_point_proxy.connection
         else
           connection_without_switch_point
