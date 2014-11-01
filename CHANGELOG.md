@@ -1,3 +1,8 @@
+## 0.5.0 (XXXX-XX-XX)
+- Rename `SwitchPoint.with_connection` to `SwitchPoint.with_mode`
+    - To avoid confusion with `ActiveRecord::ConnectionPool#with_connection`
+- Inherit superclass' switch_point configuration
+
 ## 0.4.4 (2014-07-14)
 - Memorize switch_point config to ConnectionSpecification#config instead of ConnectionPool
     - To support multi-threaded environment since Rails 4.0.
