@@ -1,4 +1,4 @@
-## 0.5.0 (XXXX-XX-XX)
+## 0.5.0 (2014-11-05)
 - Rename `SwitchPoint.with_connection` to `SwitchPoint.with_mode`
     - To avoid confusion with `ActiveRecord::ConnectionPool#with_connection`
 - Inherit superclass' switch_point configuration
