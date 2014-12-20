@@ -10,6 +10,10 @@ appraise 'rails-4.1' do
   gem 'activerecord', '~> 4.1'
 end
 
+appraise 'rails-4.2' do
+  gem 'activerecord', '~> 4.2'
+end
+
 appraise 'rails-edge' do
   gem 'activerecord', git: 'https://github.com/rails/rails'
 end
