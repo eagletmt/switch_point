@@ -10,6 +10,7 @@ gemfile:
   - gemfiles/rails_4.1.gemfile
   - gemfiles/rails_4.2.gemfile
   - gemfiles/rails_edge.gemfile
+sudo: false
 after_script:
   - rake benchmark
 matrix:
