@@ -16,6 +16,7 @@ end
 
 appraise 'rails-edge' do
   gem 'activerecord', git: 'https://github.com/rails/rails'
+  gem 'arel', git: 'https://github.com/rails/arel'
 end
 
 # vim: set ft=ruby:
