@@ -121,7 +121,7 @@ Each ActiveRecord model refers to a proxy.
 
 When the writable connection is requested to execute destructive query, the readonly connection clears its query cache.
 
-![switch_point](http://gyazo.wanko.cc/switch_point.svg)
+![switch_point](https://gyazo.wanko.cc/switch_point.svg)
 
 ### Special case: ActiveRecord::Base.connection
 Basically, each connection managed by a proxy isn't shared between proxies.
