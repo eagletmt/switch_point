@@ -56,4 +56,6 @@ Benchmark.ips do |x|
     Proxy2.with_writable { Proxy2.create }
     Proxy2.first
   end
+
+  x.compare!
 end

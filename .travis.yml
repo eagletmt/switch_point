@@ -12,7 +12,7 @@ gemfile:
   - gemfiles/rails_edge.gemfile
 sudo: false
 after_script:
-  - rake benchmark
+  - bundle exec rake benchmark
 matrix:
   allow_failures:
     - rvm: ruby-head

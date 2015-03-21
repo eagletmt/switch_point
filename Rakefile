@@ -7,5 +7,5 @@ RSpec::Core::RakeTask.new(:spec)
 
 desc 'Run benchmark'
 task :benchmark do
-  sh 'bundle', 'exec', 'ruby', 'benchmark/proxy.rb'
+  sh 'ruby', 'benchmark/proxy.rb'
 end
