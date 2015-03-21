@@ -89,6 +89,22 @@ end
 
 Note that Article and Category shares their connections.
 
+### Query cache
+`Model.cache` and `Model.uncached` enables/disables query cache for both
+readonly connection and writable connection.
+
+switch_point also provide a rack middleware `SwitchPoint::QueryCache` similar
+to `ActiveRecord::QueryCache`. It enables query cache for all models using
+switch_point.
+
+```ruby
+# Replace ActiveRecord::QueryCache with SwitchPoint::QueryCache
+config.middleware.swap ActiveRecord::QueryCache, SwitchPoint::QueryCache
+
+# Enable query cache for :nanika1 only.
+config.middleware.swap ActiveRecord::QueryCache, SwitchPoint::QueryCache, [:nanika1]
+```
+
 ## Notes
 
 ### auto_writable
