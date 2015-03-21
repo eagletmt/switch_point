@@ -31,6 +31,12 @@ RSpec.describe SwitchPoint do
         end
       end
     end
+
+    context 'with unknown name' do
+      it 'raises error' do
+        expect { SwitchPoint.writable!(:unknown) }.to raise_error(KeyError)
+      end
+    end
   end
 
   describe '.with_writable' do
@@ -43,6 +49,12 @@ RSpec.describe SwitchPoint do
       expect(Book).to connect_to('main_readonly.sqlite3')
       expect(Publisher).to connect_to('main_readonly.sqlite3')
       expect(Nanika1).to connect_to('main_readonly.sqlite3')
+    end
+
+    context 'with unknown name' do
+      it 'raises error' do
+        expect { SwitchPoint.with_writable(:unknown) { raise RuntimeError } }.to raise_error(KeyError)
+      end
     end
   end
 end

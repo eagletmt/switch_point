@@ -49,5 +49,18 @@ RSpec.describe SwitchPoint::QueryCache do
         )
       end
     end
+
+    context 'when unknown name is specified' do
+      let(:app) do
+        Rack::Builder.new do
+          use SwitchPoint::QueryCache, [:unknown]
+          run TestApp.new
+        end
+      end
+
+      it 'raises error' do
+        expect { app.call({}) }.to raise_error(KeyError)
+      end
+    end
   end
 end

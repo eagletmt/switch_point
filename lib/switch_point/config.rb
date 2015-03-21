@@ -22,11 +22,11 @@ module SwitchPoint
     end
 
     def database_name(name, mode)
-      switch_points[name][mode]
+      fetch(name)[mode]
     end
 
     def model_name(name, mode)
-      if switch_points[name][mode]
+      if fetch(name)[mode]
         "#{name}_#{mode}".camelize
       else
         nil
