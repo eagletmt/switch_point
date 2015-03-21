@@ -397,4 +397,34 @@ RSpec.describe SwitchPoint::Model do
       end
     end
   end
+
+  describe '.cache' do
+    it 'enables query cache for both readonly and writable' do
+      Book.connection
+      Book.with_writable { Book.connection }
+
+      Book.cache do
+        expect { Book.count }.to change { Book.connection.query_cache.size }.from(0).to(1)
+        Book.with_writable do
+          expect { Book.count }.to change { Book.connection.query_cache.size }.from(0).to(1)
+        end
+      end
+    end
+  end
+
+  describe '.uncached' do
+    it 'disables query cache for both readonly and writable' do
+      Book.connection
+      Book.with_writable { Book.connection }
+
+      Book.cache do
+        Book.uncached do
+          expect { Book.count }.to_not change { Book.connection.query_cache.size }.from(0)
+          Book.with_writable do
+            expect { Book.count }.to_not change { Book.connection.query_cache.size }.from(0)
+          end
+        end
+      end
+    end
+  end
 end

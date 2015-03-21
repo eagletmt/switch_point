@@ -6,6 +6,8 @@ module SwitchPoint
       model.singleton_class.class_eval do
         include ClassMethods
         alias_method_chain :connection, :switch_point
+        alias_method_chain :cache, :switch_point
+        alias_method_chain :uncached, :switch_point
       end
     end
 
@@ -15,6 +17,22 @@ module SwitchPoint
           switch_point_proxy.connection
         else
           connection_without_switch_point
+        end
+      end
+
+      def cache_with_switch_point(&block)
+        if switch_point_proxy
+          switch_point_proxy.cache(&block)
+        else
+          cache_without_switch_point(&block)
+        end
+      end
+
+      def uncached_with_switch_point(&block)
+        if switch_point_proxy
+          switch_point_proxy.uncached(&block)
+        else
+          uncached_without_switch_point(&block)
         end
       end
 

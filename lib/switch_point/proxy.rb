@@ -142,5 +142,17 @@ module SwitchPoint
     def connected?
       model_for_connection.connected?
     end
+
+    def cache(&block)
+      r = with_readonly { model_for_connection }
+      w = with_writable { model_for_connection }
+      r.cache { w.cache(&block) }
+    end
+
+    def uncached(&block)
+      r = with_readonly { model_for_connection }
+      w = with_writable { model_for_connection }
+      r.uncached { w.uncached(&block) }
+    end
   end
 end

@@ -7,10 +7,7 @@ module SwitchPoint
 
     def call(env)
       names.reverse.inject(lambda { @app.call(env) }) do |func, name|
-        proxy = ProxyRepository.checkout(name)
-        readonly = proxy.with_readonly { proxy.connection }
-        writable = proxy.with_writable { proxy.connection }
-        lambda { readonly.cache { writable.cache(&func) } }
+        lambda { ProxyRepository.checkout(name).cache(&func) }
       end.call
     end
 
