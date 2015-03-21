@@ -69,7 +69,6 @@ RSpec.describe SwitchPoint::Model do
 
     it 'works with newly checked-out connection' do
       Thread.start do
-        expect(Book.connection.pool.connections.size).to be > 1 # Assertion
         Book.with_writable do
           Book.create
         end
