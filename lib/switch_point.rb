@@ -52,8 +52,10 @@ module SwitchPoint
 end
 
 ActiveSupport.on_load(:active_record) do
-  require 'switch_point/model'
   require 'switch_point/connection'
+  require 'switch_point/model'
+  require 'switch_point/query_cache'
+
   ActiveRecord::Base.send(:include, SwitchPoint::Model)
   ActiveRecord::ConnectionAdapters::AbstractAdapter.class_eval do
     include SwitchPoint::Connection
