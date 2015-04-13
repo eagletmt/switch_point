@@ -1,3 +1,10 @@
+## 0.6.0 (2015-04-14)
+- Add `SwitchPoint::QueryCache` middleware
+- `Model.cache` and `Model.uncached` is now hooked by switch_point
+    - `Model.cache` enables query cache for both readonly and writable.
+    - `Model.uncached` disables query cache for both readonly and writable.
+- Add `SwitchPoint.with_readonly_all` and `SwitchPoint.with_writable_all` as shorthand
+
 ## 0.5.0 (2014-11-05)
 - Rename `SwitchPoint.with_connection` to `SwitchPoint.with_mode`
     - To avoid confusion with `ActiveRecord::ConnectionPool#with_connection`
