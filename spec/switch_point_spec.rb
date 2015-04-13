@@ -57,4 +57,15 @@ RSpec.describe SwitchPoint do
       end
     end
   end
+
+  describe '.with_writable_all' do
+    it 'changes all connections' do
+      expect(Book).to connect_to('main_readonly.sqlite3')
+      expect(Comment).to connect_to('comment_readonly.sqlite3')
+      SwitchPoint.with_writable_all do
+        expect(Book).to connect_to('main_writable.sqlite3')
+        expect(Comment).to connect_to('comment_writable.sqlite3')
+      end
+    end
+  end
 end

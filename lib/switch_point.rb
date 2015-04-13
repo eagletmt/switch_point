@@ -36,8 +36,16 @@ module SwitchPoint
       with_mode(:readonly, *names, &block)
     end
 
+    def with_readonly_all(&block)
+      with_readonly(*config.keys, &block)
+    end
+
     def with_writable(*names, &block)
       with_mode(:writable, *names, &block)
+    end
+
+    def with_writable_all(&block)
+      with_writable(*config.keys, &block)
     end
 
     def with_mode(mode, *names, &block)
