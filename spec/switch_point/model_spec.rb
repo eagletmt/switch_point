@@ -263,7 +263,7 @@ RSpec.describe SwitchPoint::Model do
 
   describe '#with_mode' do
     it 'raises error if unknown mode is given' do
-      expect { SwitchPoint::ProxyRepository.checkout(:main).with_mode(:typo) }.to raise_error
+      expect { SwitchPoint::ProxyRepository.checkout(:main).with_mode(:typo) }.to raise_error(ArgumentError)
     end
   end
 
