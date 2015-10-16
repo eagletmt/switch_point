@@ -1,3 +1,6 @@
+## 0.7.0 (2015-10-16)
+- `Model.with_readonly` and `Model.with_writable` now raises error when the Model doesn't use switch_point
+
 ## 0.6.0 (2015-04-14)
 - Add `SwitchPoint::QueryCache` middleware
 - `Model.cache` and `Model.uncached` is now hooked by switch_point
