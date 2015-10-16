@@ -4,4 +4,7 @@ module SwitchPoint
 
   class ReadonlyError < Error
   end
+
+  class UnconfiguredError < Error
+  end
 end
