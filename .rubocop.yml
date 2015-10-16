@@ -1,0 +1,36 @@
+inherit_from: .rubocop_todo.yml
+
+Style/AlignParameters:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/HashSyntax:
+  Exclude:
+    - Rakefile
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/Next:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': '[]'
+
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
+Style/SignalException:
+  Enabled: false
+
+Style/TrailingComma:
+  Enabled: false
