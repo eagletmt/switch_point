@@ -7,7 +7,7 @@ class TestApp
     [Nanika1, Nanika2].each do |model|
       r = model.with_readonly { model.connection.query_cache_enabled }
       w = model.with_writable { model.connection.query_cache_enabled }
-      state[model.name] = { readonly: r, writable: r }
+      state[model.name] = { readonly: r, writable: w }
     end
     env[:state] = state
     :result
@@ -45,7 +45,7 @@ RSpec.describe SwitchPoint::QueryCache do
         expect(app.call(env)).to eq(:result)
         expect(env[:state]).to eq(
           'Nanika1' => { readonly: true, writable: true },
-          'Nanika2' => { readonly: false, writable: false },
+          'Nanika2' => { readonly: false, writable: true },
         )
       end
     end
