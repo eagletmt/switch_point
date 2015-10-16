@@ -41,7 +41,7 @@ module SwitchPoint
         if switch_point_proxy
           switch_point_proxy.with_readonly(&block)
         else
-          block.call
+          raise UnconfiguredError.new("#{self.name} isn't configured to use switch_point")
         end
       end
 
@@ -49,7 +49,7 @@ module SwitchPoint
         if switch_point_proxy
           switch_point_proxy.with_writable(&block)
         else
-          block.call
+          raise UnconfiguredError.new("#{self.name} isn't configured to use switch_point")
         end
       end
 

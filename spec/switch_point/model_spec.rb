@@ -227,8 +227,8 @@ RSpec.describe SwitchPoint::Model do
     end
 
     context 'without use_switch_point' do
-      it 'bypasses given block' do
-        expect(Note.with_writable { :bypass }).to eq(:bypass)
+      it 'raises error' do
+        expect { Note.with_writable { :bypass } }.to raise_error(SwitchPoint::UnconfiguredError)
       end
     end
 
