@@ -1,5 +1,8 @@
 module SwitchPoint
   class Config
+    attr_accessor :auto_writable
+    alias_method :auto_writable?, :auto_writable
+
     def initialize
       self.auto_writable = false
     end
@@ -7,14 +10,6 @@ module SwitchPoint
     def define_switch_point(name, config)
       assert_valid_config!(config)
       switch_points[name] = config
-    end
-
-    def auto_writable=(val)
-      @auto_writable = val
-    end
-
-    def auto_writable?
-      @auto_writable
     end
 
     def switch_points
@@ -28,8 +23,6 @@ module SwitchPoint
     def model_name(name, mode)
       if fetch(name)[mode]
         "#{name}_#{mode}".camelize
-      else
-        nil
       end
     end
 

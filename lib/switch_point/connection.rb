@@ -9,7 +9,7 @@ module SwitchPoint
     DESTRUCTIVE_METHODS.each do |method_name|
       define_method(:"#{method_name}_with_switch_point") do |*args, &block|
         parent_method = :"#{method_name}_without_switch_point"
-        if self.pool.equal?(ActiveRecord::Base.connection_pool)
+        if pool.equal?(ActiveRecord::Base.connection_pool)
           Connection.handle_base_connection(self, parent_method, *args, &block)
         else
           Connection.handle_generated_connection(self, parent_method, method_name, *args, &block)

@@ -41,7 +41,7 @@ module SwitchPoint
         if switch_point_proxy
           switch_point_proxy.with_readonly(&block)
         else
-          raise UnconfiguredError.new("#{self.name} isn't configured to use switch_point")
+          raise UnconfiguredError.new("#{name} isn't configured to use switch_point")
         end
       end
 
@@ -49,7 +49,7 @@ module SwitchPoint
         if switch_point_proxy
           switch_point_proxy.with_writable(&block)
         else
-          raise UnconfiguredError.new("#{self.name} isn't configured to use switch_point")
+          raise UnconfiguredError.new("#{name} isn't configured to use switch_point")
         end
       end
 
@@ -74,7 +74,7 @@ module SwitchPoint
         end
 
         with_writable do
-          self.transaction(&block)
+          transaction(&block)
         end
       end
 
@@ -91,8 +91,6 @@ module SwitchPoint
               model.instance_variable_get(:@switch_point_name),
               :writable
             )
-          else
-            nil
           end
         end
 

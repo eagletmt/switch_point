@@ -8,7 +8,6 @@ SwitchPoint.configure do |config|
     writable: :proxy_writable
 end
 
-
 class Plain < ActiveRecord::Base
 end
 

@@ -97,7 +97,7 @@ module SwitchPoint
       unless AVAILABLE_MODES.include?(new_mode)
         raise ArgumentError.new("Unknown mode: #{new_mode}")
       end
-      saved_mode = self.thread_local_mode
+      saved_mode = thread_local_mode
       self.thread_local_mode = new_mode
       block.call
     ensure

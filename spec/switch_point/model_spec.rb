@@ -217,7 +217,7 @@ RSpec.describe SwitchPoint::Model do
             expect(Book.connection.query_cache.size).to eq(1)
             Book.with_writable do
               Book.create
-              FileUtils.cp('main_writable.sqlite3', 'main_readonly.sqlite3')  # XXX: emulate replication
+              FileUtils.cp('main_writable.sqlite3', 'main_readonly.sqlite3') # XXX: emulate replication
             end
             expect(Book.connection.query_cache.size).to eq(0)
             expect(Book.count).to eq(1)
@@ -291,7 +291,7 @@ RSpec.describe SwitchPoint::Model do
   end
 
   describe '.transaction_with' do
-    context "when each model has a same writable" do
+    context 'when each model has a same writable' do
       before do
         @before_book_count  = Book.count
         @before_book2_count = Book2.count
@@ -324,7 +324,7 @@ RSpec.describe SwitchPoint::Model do
       end
     end
 
-    context "when each model has a other writable" do
+    context 'when each model has a other writable' do
       it {
         expect {
           Book.transaction_with(Book3) do
@@ -335,7 +335,7 @@ RSpec.describe SwitchPoint::Model do
       }
     end
 
-    context "when raise exception in transaction that include some model, and models each have other writable" do
+    context 'when raise exception in transaction that include some model, and models each have other writable' do
       before do
         @before_book_count  = Book.count
         @before_book3_count = Book3.count
@@ -366,7 +366,7 @@ RSpec.describe SwitchPoint::Model do
       end
     end
 
-    context "when nested transaction_with then parent transaction rollbacked" do
+    context 'when nested transaction_with then parent transaction rollbacked' do
       before do
         @before_book_count  = Book.count
         @before_book3_count = Book3.count
