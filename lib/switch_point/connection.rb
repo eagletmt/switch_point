@@ -1,3 +1,4 @@
+require 'switch_point/error'
 require 'switch_point/proxy_repository'
 
 module SwitchPoint
@@ -16,16 +17,13 @@ module SwitchPoint
       end
     end
 
-    class ReadonlyError < StandardError
-    end
-
     def self.handle_base_connection(conn, parent_method, *args, &block)
       switch_points = conn.pool.spec.config[:switch_points]
       if switch_points
         switch_points.each do |switch_point|
           proxy = ProxyRepository.find(switch_point[:name])
           if switch_point[:mode] != :writable
-            raise RuntimeError.new("ActiveRecord::Base's switch_points must be writable, but #{switch_point[:name]} is #{switch_point[:mode]}")
+            raise Error.new("ActiveRecord::Base's switch_points must be writable, but #{switch_point[:name]} is #{switch_point[:mode]}")
           end
           purge_readonly_query_cache(proxy)
         end
@@ -48,7 +46,7 @@ module SwitchPoint
           purge_readonly_query_cache(proxy)
           conn.send(parent_method, *args, &block)
         else
-          raise RuntimeError.new("Unknown mode #{switch_point[:mode]} is given with #{name}")
+          raise Error.new("Unknown mode #{switch_point[:mode]} is given with #{name}")
         end
       else
         conn.send(parent_method, *args, &block)

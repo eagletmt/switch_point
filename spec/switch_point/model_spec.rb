@@ -33,8 +33,8 @@ RSpec.describe SwitchPoint::Model do
 
     context 'when auto_writable is disabled' do
       it 'raises error when destructive query is requested in readonly mode' do
-        expect { Book.create }.to raise_error(SwitchPoint::Connection::ReadonlyError)
-        expect { Book.with_readonly { Book.create } }.to raise_error(SwitchPoint::Connection::ReadonlyError)
+        expect { Book.create }.to raise_error(SwitchPoint::ReadonlyError)
+        expect { Book.with_readonly { Book.create } }.to raise_error(SwitchPoint::ReadonlyError)
         expect { Book.with_writable { Book.create } }.to_not raise_error
       end
     end
@@ -331,7 +331,7 @@ RSpec.describe SwitchPoint::Model do
             new_book  = Book.create
             new_book3 = Book3.create
           end
-        }.to raise_error RuntimeError
+        }.to raise_error(SwitchPoint::Error)
       }
     end
 

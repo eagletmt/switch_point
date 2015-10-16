@@ -1,3 +1,4 @@
+require 'switch_point/error'
 require 'switch_point/proxy_repository'
 
 module SwitchPoint
@@ -69,7 +70,7 @@ module SwitchPoint
 
       def transaction_with(*models, &block)
         unless can_transaction_with?(*models)
-          raise RuntimeError.new("switch_point's model names must be consistent")
+          raise Error.new("switch_point's model names must be consistent")
         end
 
         with_writable do

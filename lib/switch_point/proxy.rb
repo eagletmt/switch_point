@@ -1,3 +1,5 @@
+require 'switch_point/error'
+
 module SwitchPoint
   class Proxy
     attr_reader :initial_name
@@ -34,7 +36,7 @@ module SwitchPoint
       switch_point = { name: name, mode: mode }
       if pool.equal?(ActiveRecord::Base.connection_pool)
         if mode != :writable
-          raise RuntimeError.new("ActiveRecord::Base's switch_points must be writable, but #{name} is #{mode}")
+          raise Error.new("ActiveRecord::Base's switch_points must be writable, but #{name} is #{mode}")
         end
         switch_points = pool.spec.config[:switch_points] || []
         switch_points << switch_point
