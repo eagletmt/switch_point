@@ -297,8 +297,8 @@ RSpec.describe SwitchPoint::Model do
         @before_book2_count = Book2.count
 
         Book.transaction_with(Book2) do
-          new_book  = Book.create
-          new_book2 = Book2.create
+          Book.create
+          Book2.create
         end
 
         @after_book_count = Book.with_writable do
@@ -328,8 +328,8 @@ RSpec.describe SwitchPoint::Model do
       it {
         expect {
           Book.transaction_with(Book3) do
-            new_book  = Book.create
-            new_book3 = Book3.create
+            Book.create
+            Book3.create
           end
         }.to raise_error(SwitchPoint::Error)
       }
@@ -341,8 +341,8 @@ RSpec.describe SwitchPoint::Model do
         @before_book3_count = Book3.count
 
         Book.transaction_with(Book2) do
-          new_book  = Book.create
-          new_book3 = Book3.with_writable do
+          Book.create
+          Book3.with_writable do
             Book3.create
           end
           raise ActiveRecord::Rollback
