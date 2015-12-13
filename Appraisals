@@ -60,7 +60,7 @@ appraise 'rails-edge' do
 
   platforms :jruby do
     gem 'json'
-    gem 'activerecord-jdbcsqlite3-adapter'
+    gem 'activerecord-jdbcsqlite3-adapter', git: 'https://github.com/jruby/activerecord-jdbc-adapter', branch: 'master'
   end
 end
 
