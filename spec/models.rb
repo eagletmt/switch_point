@@ -85,7 +85,12 @@ class DerivedNanika2 < AbstractNanika
   use_switch_point :main2
 end
 
-base = { adapter: 'sqlite3' }
+base =
+  if RUBY_PLATFORM == 'java'
+    { adapter: 'jdbcsqlite3' }
+  else
+    { adapter: 'sqlite3' }
+  end
 ActiveRecord::Base.configurations = {
   'main_readonly' => base.merge(database: 'main_readonly.sqlite3'),
   'main_writable' => base.merge(database: 'main_writable.sqlite3'),

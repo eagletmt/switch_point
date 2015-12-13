@@ -3,6 +3,7 @@ rvm:
   - 2.0.0
   - 2.1
   - 2.2
+  - jruby-head
   - ruby-head
 gemfile:
   - gemfiles/rails_3.2.gemfile
@@ -16,6 +17,7 @@ after_script:
 matrix:
   allow_failures:
     - rvm: ruby-head
+    - rvm: jruby-head
     - gemfile: gemfiles/rails_edge.gemfile
   exclude:
     # Rails 5 requires to run on Ruby 2.2.0 or newer.
