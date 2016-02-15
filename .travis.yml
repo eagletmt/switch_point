@@ -25,6 +25,10 @@ matrix:
   exclude:
     # Rails 5 requires to run on Ruby 2.2.0 or newer.
     - rvm: 2.0.0
+      gemfile: gemfiles/rails_5.0.gemfile
+    - rvm: 2.1
+      gemfile: gemfiles/rails_5.0.gemfile
+    - rvm: 2.0.0
       gemfile: gemfiles/rails_edge.gemfile
     - rvm: 2.1
       gemfile: gemfiles/rails_edge.gemfile
