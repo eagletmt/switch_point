@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - 2.0.0
   - 2.1
-  - 2.2
+  - 2.2.4
   - 2.3.0
   - jruby-9.0.4.0
   - jruby-head
@@ -22,6 +22,10 @@ matrix:
     - rvm: ruby-head
     - rvm: jruby-head
     - gemfile: gemfiles/rails_edge.gemfile
+    # Wait for activerecord-jdbcsqlite3-adapter's support
+    # https://github.com/jruby/activerecord-jdbc-adapter/labels/rails-5.x
+    - rvm: jruby-9.0.4.0
+      gemfile: gemfiles/rails_5.0.gemfile
   exclude:
     # Rails 5 requires to run on Ruby 2.2.0 or newer.
     - rvm: 2.0.0
