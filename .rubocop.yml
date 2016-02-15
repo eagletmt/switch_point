@@ -1,7 +1,16 @@
 inherit_from: .rubocop_todo.yml
 
+AllCops:
+  DisplayCopNames: true
+
+Performance/RedundantBlockCall:
+  Enabled: false
+
 Style/AlignParameters:
   Enabled: false
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
 
 Style/BlockDelimiters:
   Enabled: false
@@ -32,5 +41,8 @@ Style/RaiseArgs:
 Style/SignalException:
   Enabled: false
 
-Style/TrailingComma:
+Style/TrailingCommaInLiteral:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
   Enabled: false

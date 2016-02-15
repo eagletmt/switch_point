@@ -4,7 +4,7 @@ module SwitchPoint
   class Proxy
     attr_reader :initial_name
 
-    AVAILABLE_MODES = [:writable, :readonly]
+    AVAILABLE_MODES = [:writable, :readonly].freeze
     DEFAULT_MODE = :readonly
 
     def initialize(name)

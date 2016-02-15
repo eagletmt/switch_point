@@ -4,7 +4,7 @@ require 'switch_point/proxy_repository'
 module SwitchPoint
   module Connection
     # See ActiveRecord::ConnectionAdapters::QueryCache
-    DESTRUCTIVE_METHODS = [:insert, :update, :delete]
+    DESTRUCTIVE_METHODS = [:insert, :update, :delete].freeze
 
     DESTRUCTIVE_METHODS.each do |method_name|
       define_method(:"#{method_name}_with_switch_point") do |*args, &block|
