@@ -59,7 +59,7 @@ module SwitchPoint
       end
 
       def switch_point_proxy
-        if @switch_point_name
+        if defined?(@switch_point_name)
           ProxyRepository.checkout(@switch_point_name)
         elsif self == ActiveRecord::Base
           nil
