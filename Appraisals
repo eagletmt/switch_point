@@ -51,7 +51,7 @@ appraise 'rails-4.2' do
 end
 
 appraise 'rails-5.0' do
-  gem 'activerecord', '>= 5.0.0.beta2'
+  gem 'activerecord', '>= 5.0.0.rc1'
 
   platforms :ruby do
     gem 'sqlite3'
