@@ -7,17 +7,18 @@ module SwitchPoint
     DESTRUCTIVE_METHODS = [:insert, :update, :delete].freeze
 
     DESTRUCTIVE_METHODS.each do |method_name|
-      define_method(:"#{method_name}_with_switch_point") do |*args, &block|
-        parent_method = :"#{method_name}_without_switch_point"
+      define_method(method_name) do |*args, &block|
         if pool.equal?(ActiveRecord::Base.connection_pool)
-          Connection.handle_base_connection(self, parent_method, *args, &block)
+          Connection.handle_base_connection(self)
+          super(*args, &block)
         else
+          parent_method = method(method_name).super_method
           Connection.handle_generated_connection(self, parent_method, method_name, *args, &block)
         end
       end
     end
 
-    def self.handle_base_connection(conn, parent_method, *args, &block)
+    def self.handle_base_connection(conn)
       switch_points = conn.pool.spec.config[:switch_points]
       if switch_points
         switch_points.each do |switch_point|
@@ -28,7 +29,6 @@ module SwitchPoint
           purge_readonly_query_cache(proxy)
         end
       end
-      conn.send(parent_method, *args, &block)
     end
 
     def self.handle_generated_connection(conn, parent_method, method_name, *args, &block)
@@ -44,12 +44,12 @@ module SwitchPoint
           end
         when :writable
           purge_readonly_query_cache(proxy)
-          conn.send(parent_method, *args, &block)
+          parent_method.call(*args, &block)
         else
           raise Error.new("Unknown mode #{switch_point[:mode]} is given with #{name}")
         end
       else
-        conn.send(parent_method, *args, &block)
+        parent_method.call(*args, &block)
       end
     end
 
