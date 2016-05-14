@@ -6,37 +6,11 @@ module SwitchPoint
     def self.included(model)
       model.singleton_class.class_eval do
         include ClassMethods
-        alias_method_chain :connection, :switch_point
-        alias_method_chain :cache, :switch_point
-        alias_method_chain :uncached, :switch_point
+        prepend MonkeyPatch
       end
     end
 
     module ClassMethods
-      def connection_with_switch_point
-        if switch_point_proxy
-          switch_point_proxy.connection
-        else
-          connection_without_switch_point
-        end
-      end
-
-      def cache_with_switch_point(&block)
-        if switch_point_proxy
-          switch_point_proxy.cache(&block)
-        else
-          cache_without_switch_point(&block)
-        end
-      end
-
-      def uncached_with_switch_point(&block)
-        if switch_point_proxy
-          switch_point_proxy.uncached(&block)
-        else
-          uncached_without_switch_point(&block)
-        end
-      end
-
       def with_readonly(&block)
         if switch_point_proxy
           switch_point_proxy.with_readonly(&block)
@@ -95,6 +69,32 @@ module SwitchPoint
         end
 
         writable_switch_points.uniq.size == 1
+      end
+    end
+
+    module MonkeyPatch
+      def connection
+        if switch_point_proxy
+          switch_point_proxy.connection
+        else
+          super
+        end
+      end
+
+      def cache(&block)
+        if switch_point_proxy
+          switch_point_proxy.cache(&block)
+        else
+          super
+        end
+      end
+
+      def uncached(&block)
+        if switch_point_proxy
+          switch_point_proxy.uncached(&block)
+        else
+          super
+        end
       end
     end
   end
