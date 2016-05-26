@@ -426,6 +426,20 @@ RSpec.describe SwitchPoint::Model do
     end
   end
 
+  describe '#transaction_with' do
+    it 'behaves like .transaction_with' do
+      book = Book.with_writable { Book.create! }
+      expect(Book.with_writable { Book.count }).to eq(1)
+      book.transaction_with(Book2) do
+        Book.create!
+        raise ActiveRecord::Rollback
+      end
+      expect(Book.with_writable { Book.count }).to eq(1)
+
+      expect { book.transaction_with(Book3) {} }.to raise_error(SwitchPoint::Error)
+    end
+  end
+
   describe '.cache' do
     it 'enables query cache for both readonly and writable' do
       Book.connection

@@ -19,6 +19,10 @@ module SwitchPoint
       self.class.with_writable(&block)
     end
 
+    def transaction_with(*models, &block)
+      self.class.transaction_with(*models, &block)
+    end
+
     module ClassMethods
       def with_readonly(&block)
         if switch_point_proxy
