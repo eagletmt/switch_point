@@ -4,10 +4,19 @@ require 'switch_point/proxy_repository'
 module SwitchPoint
   module Model
     def self.included(model)
+      super
       model.singleton_class.class_eval do
         include ClassMethods
         prepend MonkeyPatch
       end
+    end
+
+    def with_readonly(&block)
+      self.class.with_readonly(&block)
+    end
+
+    def with_writable(&block)
+      self.class.with_writable(&block)
     end
 
     module ClassMethods

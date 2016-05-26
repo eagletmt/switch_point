@@ -242,6 +242,16 @@ RSpec.describe SwitchPoint::Model do
     end
   end
 
+  describe '#with_writable' do
+    it 'behaves like .with_writable' do
+      book = Book.with_writable { Book.create! }
+      book.with_writable do
+        expect(Book).to connect_to('main_writable.sqlite3')
+      end
+      expect(Book).to connect_to('main_readonly.sqlite3')
+    end
+  end
+
   describe '.with_readonly' do
     context 'when writable! is called globally' do
       before do
@@ -258,6 +268,24 @@ RSpec.describe SwitchPoint::Model do
         end
         expect(Book).to connect_to('main_writable.sqlite3')
       end
+    end
+  end
+
+  describe '#with_readonly' do
+    before do
+      SwitchPoint.writable!(:main)
+    end
+
+    after do
+      SwitchPoint.readonly!(:main)
+    end
+
+    it 'behaves like .with_readonly' do
+      book = Book.create!
+      book.with_readonly do
+        expect(Book).to connect_to('main_readonly.sqlite3')
+      end
+      expect(Book).to connect_to('main_writable.sqlite3')
     end
   end
 
