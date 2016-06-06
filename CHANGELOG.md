@@ -1,3 +1,11 @@
+## 0.8.0 (2016-06-06)
+- Drop Ruby 2.0.0 and 2.1 support
+- Add `AR::Base#with_readonly` and `AR::Base#with_writable`
+    - short-hand for `AR::Base.with_readonly` and `AR::Base.with_writable`
+- Add `AR::Base#transaction_with`
+    - short-hand for `AR::Base.transaction_with`
+- Fix warnings for Rails 5.0
+
 ## 0.7.0 (2015-10-16)
 - `Model.with_readonly` and `Model.with_writable` now raises error when the Model doesn't use switch_point
 
