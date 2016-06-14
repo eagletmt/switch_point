@@ -1,4 +1,48 @@
 RSpec.describe SwitchPoint do
+  describe '.writable_all!' do
+    after do
+      SwitchPoint.readonly_all!
+    end
+
+    it 'changes connection globally' do
+      expect(Book).to connect_to('main_readonly.sqlite3')
+      expect(Book3).to connect_to('main2_readonly.sqlite3')
+      expect(Comment).to connect_to('comment_readonly.sqlite3')
+      expect(User).to connect_to('user.sqlite3')
+      expect(BigData).to connect_to('main_readonly_special.sqlite3')
+      SwitchPoint.writable_all!
+      expect(Book).to connect_to('main_writable.sqlite3')
+      expect(Book3).to connect_to('main2_writable.sqlite3')
+      expect(Comment).to connect_to('comment_writable.sqlite3')
+      expect(User).to connect_to('user.sqlite3')
+      expect(BigData).to connect_to('main_writable.sqlite3')
+    end
+
+    it 'affects thread-globally' do
+      SwitchPoint.writable_all!
+      Thread.start do
+        expect(Book).to connect_to('main_writable.sqlite3')
+        expect(Book3).to connect_to('main2_writable.sqlite3')
+        expect(Comment).to connect_to('comment_writable.sqlite3')
+        expect(User).to connect_to('user.sqlite3')
+        expect(BigData).to connect_to('main_writable.sqlite3')
+      end.join
+    end
+
+    context 'within with block' do
+      it 'changes the current mode' do
+        SwitchPoint.writable_all!
+        Book.with_readonly do
+          expect(Book).to connect_to('main_readonly.sqlite3')
+        end
+        expect(Book).to connect_to('main_writable.sqlite3')
+        Book.with_writable do
+          expect(Book).to connect_to('main_writable.sqlite3')
+        end
+      end
+    end
+  end
+
   describe '.writable!' do
     after do
       SwitchPoint.readonly!(:main)
