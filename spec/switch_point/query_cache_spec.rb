@@ -23,6 +23,16 @@ RSpec.describe SwitchPoint::QueryCache do
   end
 
   describe '#call' do
+    before do
+      # Ensure the connection is established.
+      # The query cache is enabled only when connected.
+      # https://github.com/rails/rails/commit/25fc1f584def4c1bc36be805833194d8aee55b3a
+      [Nanika1, Nanika2].each do |model|
+        model.with_readonly { model.connection }
+        model.with_writable { model.connection }
+      end
+    end
+
     it 'enables query cache of all models' do
       env = {}
       expect(app.call(env)).to eq(:result)
