@@ -29,7 +29,7 @@ module SwitchPoint
         # Re-use writable connection
         Proxy.const_get(SwitchPoint.config.model_name(name, :writable))
       else
-        Class.new(ActiveRecord::Base)
+        ActiveRecord::Base
       end
     end
 
