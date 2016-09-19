@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module SwitchPoint
   class QueryCache
     def initialize(app, names = nil)

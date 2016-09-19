@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe SwitchPoint do
   describe '.writable_all!' do
     after do

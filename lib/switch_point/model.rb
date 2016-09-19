@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'switch_point/error'
 require 'switch_point/proxy_repository'
 

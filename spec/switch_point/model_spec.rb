@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe SwitchPoint::Model do
   describe '.use_switch_point' do
     after do

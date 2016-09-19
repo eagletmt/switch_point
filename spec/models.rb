@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 SwitchPoint.configure do |config|
   config.define_switch_point :main,
     readonly: :main_readonly,
