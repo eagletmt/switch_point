@@ -31,8 +31,7 @@ class Book < ActiveRecord::Base
 
   private
 
-  def do_after_save
-  end
+  def do_after_save; end
 end
 
 class Book2 < ActiveRecord::Base
