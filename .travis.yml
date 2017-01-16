@@ -23,5 +23,5 @@ matrix:
     - gemfile: gemfiles/rails_edge.gemfile
     # Wait for activerecord-jdbcsqlite3-adapter's support
     # https://github.com/jruby/activerecord-jdbc-adapter/labels/rails-5.x
-    - rvm: jruby-9.1.0.0
+    - rvm: jruby-9.1.6.0
       gemfile: gemfiles/rails_5.0.gemfile
