@@ -47,3 +47,6 @@ Style/TrailingCommaInLiteral:
 
 Style/TrailingCommaInArguments:
   Enabled: false
+
+Metrics:
+  Enabled: false
