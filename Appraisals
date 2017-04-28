@@ -63,6 +63,19 @@ appraise 'rails-5.0' do
   end
 end
 
+appraise 'rails-5.1' do
+  gem 'activerecord', '~> 5.1'
+
+  platforms :ruby do
+    gem 'sqlite3'
+  end
+
+  platforms :jruby do
+    gem 'json'
+    gem 'activerecord-jdbcsqlite3-adapter'
+  end
+end
+
 appraise 'rails-edge' do
   gem 'activerecord', git: 'https://github.com/rails/rails'
   gem 'arel', git: 'https://github.com/rails/arel'

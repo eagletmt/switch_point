@@ -93,15 +93,17 @@ base =
     { adapter: 'sqlite3' }
   end
 ActiveRecord::Base.configurations = {
-  'main_readonly' => base.merge(database: 'main_readonly.sqlite3'),
-  'main_writable' => base.merge(database: 'main_writable.sqlite3'),
-  'main2_readonly' => base.merge(database: 'main2_readonly.sqlite3'),
-  'main2_writable' => base.merge(database: 'main2_writable.sqlite3'),
-  'main_readonly_special' => base.merge(database: 'main_readonly_special.sqlite3'),
-  'user' => base.merge(database: 'user.sqlite3'),
-  'comment_readonly' => base.merge(database: 'comment_readonly.sqlite3'),
-  'comment_writable' => base.merge(database: 'comment_writable.sqlite3'),
-  'default' => base.merge(database: 'default.sqlite3')
+  'test' => {
+    'main_readonly' => base.merge(database: 'main_readonly.sqlite3'),
+    'main_writable' => base.merge(database: 'main_writable.sqlite3'),
+    'main2_readonly' => base.merge(database: 'main2_readonly.sqlite3'),
+    'main2_writable' => base.merge(database: 'main2_writable.sqlite3'),
+    'main_readonly_special' => base.merge(database: 'main_readonly_special.sqlite3'),
+    'user' => base.merge(database: 'user.sqlite3'),
+    'comment_readonly' => base.merge(database: 'comment_readonly.sqlite3'),
+    'comment_writable' => base.merge(database: 'comment_writable.sqlite3'),
+    'default' => base.merge(database: 'default.sqlite3'),
+  },
 }
 ActiveRecord::Base.establish_connection(:default)
 

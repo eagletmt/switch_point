@@ -12,6 +12,7 @@ gemfile:
   - gemfiles/rails_4.1.gemfile
   - gemfiles/rails_4.2.gemfile
   - gemfiles/rails_5.0.gemfile
+  - gemfiles/rails_5.1.gemfile
   - gemfiles/rails_edge.gemfile
 sudo: false
 after_script:
@@ -25,3 +26,5 @@ matrix:
     # https://github.com/jruby/activerecord-jdbc-adapter/labels/rails-5.x
     - rvm: jruby-9.1.6.0
       gemfile: gemfiles/rails_5.0.gemfile
+    - rvm: jruby-9.1.6.0
+      gemfile: gemfiles/rails_5.1.gemfile
