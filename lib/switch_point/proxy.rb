@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 require 'switch_point/error'
 
 module SwitchPoint
   class Proxy
     attr_reader :initial_name
 
-    AVAILABLE_MODES = [:writable, :readonly].freeze
+    AVAILABLE_MODES = %i[writable readonly].freeze
     DEFAULT_MODE = :readonly
 
     def initialize(name)

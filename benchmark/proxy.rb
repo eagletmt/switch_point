@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'benchmark/ips'
 require 'switch_point'
 require 'active_record'
@@ -33,7 +34,7 @@ ActiveRecord::Base.configurations = {
 ActiveRecord::Base.establish_connection(:default)
 
 Plain.connection.execute('CREATE TABLE plains (id integer primary key autoincrement)')
-[:readonly, :writable].each do |mode|
+%i[readonly writable].each do |mode|
   ProxyBase.public_send("with_#{mode}") do
     %w[proxy1s proxy2s].each do |table|
       ProxyBase.connection.execute("CREATE TABLE #{table} (id integer primary key autoincrement)")

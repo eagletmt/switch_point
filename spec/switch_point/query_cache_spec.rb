@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 require 'rack'
 
@@ -46,7 +47,7 @@ RSpec.describe SwitchPoint::QueryCache do
     context 'when names are specified' do
       let(:app) do
         Rack::Builder.new do
-          use SwitchPoint::QueryCache, [:main, :nanika1]
+          use SwitchPoint::QueryCache, %i[main nanika1]
           run TestApp.new
         end
       end

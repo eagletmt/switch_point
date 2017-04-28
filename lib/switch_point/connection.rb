@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 require 'switch_point/error'
 require 'switch_point/proxy_repository'
 
 module SwitchPoint
   module Connection
     # See ActiveRecord::ConnectionAdapters::QueryCache
-    DESTRUCTIVE_METHODS = [:insert, :update, :delete].freeze
+    DESTRUCTIVE_METHODS = %i[insert update delete].freeze
 
     DESTRUCTIVE_METHODS.each do |method_name|
       define_method(method_name) do |*args, &block|

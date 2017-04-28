@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module SwitchPoint
   class Config
     attr_accessor :auto_writable
