@@ -16,6 +16,10 @@ Style/Alias:
 Style/BlockDelimiters:
   Enabled: false
 
+Style/FileName:
+  Exclude:
+    - Appraisals
+
 Style/GuardClause:
   Enabled: false
 
