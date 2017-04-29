@@ -15,10 +15,6 @@ gemfile:
   - gemfiles/rails_5.1.gemfile
   - gemfiles/rails_edge.gemfile
 sudo: false
-install:
-  - bundle install --jobs=8 --retry=3
-script:
-  - bundle exec rake
 after_script:
   - bundle exec rake benchmark
 matrix:
