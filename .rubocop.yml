@@ -7,50 +7,38 @@ AllCops:
 Performance/RedundantBlockCall:
   Enabled: false
 
-Style/AlignParameters:
+Layout/AlignParameters:
   Enabled: false
 
-Style/Alias:
-  EnforcedStyle: prefer_alias_method
-
-Style/BlockDelimiters:
-  Enabled: false
-
-Style/FileName:
+Naming/FileName:
   Exclude:
     - Appraisals
 
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+Style/BlockDelimiters:
+  Enabled: false
 Style/GuardClause:
   Enabled: false
-
 Style/HashSyntax:
   Exclude:
     - Rakefile
-
 Style/IfUnlessModifier:
   Enabled: false
-
 Style/Lambda:
   Enabled: false
-
 Style/Next:
   Enabled: false
-
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%w': '[]'
-
 Style/RaiseArgs:
   EnforcedStyle: compact
-
 Style/SignalException:
   Enabled: false
-
 Style/TrailingCommaInLiteral:
   Enabled: false
-
 Style/TrailingCommaInArguments:
   Enabled: false
-
 Metrics:
   Enabled: false

@@ -1,9 +1,2 @@
 Style/Documentation:
   Enabled: false
-
-Style/VariableNumber:
-  # XXX: extremely buggy in v0.43.0
-  Enabled: false
-Style/SafeNavigation:
-  # XXX: extremely buggy in v0.43.0
-  Enabled: false

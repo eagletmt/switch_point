@@ -15,7 +15,7 @@ module SwitchPoint
     end
 
     def readonly_all!
-      config.keys.each do |name|
+      config.each_key do |name|
         readonly!(name)
       end
     end
@@ -25,7 +25,7 @@ module SwitchPoint
     end
 
     def writable_all!
-      config.keys.each do |name|
+      config.each_key do |name|
         writable!(name)
       end
     end
