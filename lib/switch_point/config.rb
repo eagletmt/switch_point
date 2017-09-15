@@ -36,6 +36,10 @@ module SwitchPoint
       switch_points.keys
     end
 
+    def each_key(&block)
+      switch_points.each_key(&block)
+    end
+
     private
 
     def assert_valid_config!(config)
