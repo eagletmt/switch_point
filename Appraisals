@@ -4,11 +4,6 @@ appraise 'rails-3.2' do
   platforms :ruby do
     gem 'sqlite3'
   end
-
-  platforms :jruby do
-    gem 'json'
-    gem 'activerecord-jdbcsqlite3-adapter'
-  end
 end
 
 appraise 'rails-4.0' do
@@ -16,11 +11,6 @@ appraise 'rails-4.0' do
 
   platforms :ruby do
     gem 'sqlite3'
-  end
-
-  platforms :jruby do
-    gem 'json'
-    gem 'activerecord-jdbcsqlite3-adapter'
   end
 end
 
@@ -30,11 +20,6 @@ appraise 'rails-4.1' do
   platforms :ruby do
     gem 'sqlite3'
   end
-
-  platforms :jruby do
-    gem 'json'
-    gem 'activerecord-jdbcsqlite3-adapter'
-  end
 end
 
 appraise 'rails-4.2' do
@@ -42,11 +27,6 @@ appraise 'rails-4.2' do
 
   platforms :ruby do
     gem 'sqlite3'
-  end
-
-  platforms :jruby do
-    gem 'json'
-    gem 'activerecord-jdbcsqlite3-adapter'
   end
 end
 
@@ -56,11 +36,6 @@ appraise 'rails-5.0' do
   platforms :ruby do
     gem 'sqlite3'
   end
-
-  platforms :jruby do
-    gem 'json'
-    gem 'activerecord-jdbcsqlite3-adapter'
-  end
 end
 
 appraise 'rails-5.1' do
@@ -68,11 +43,6 @@ appraise 'rails-5.1' do
 
   platforms :ruby do
     gem 'sqlite3'
-  end
-
-  platforms :jruby do
-    gem 'json'
-    gem 'activerecord-jdbcsqlite3-adapter'
   end
 end
 
@@ -82,11 +52,6 @@ appraise 'rails-5.2' do
   platforms :ruby do
     gem 'sqlite3'
   end
-
-  platforms :jruby do
-    gem 'json'
-    gem 'activerecord-jdbcsqlite3-adapter'
-  end
 end
 
 appraise 'rails-edge' do
@@ -95,11 +60,6 @@ appraise 'rails-edge' do
 
   platforms :ruby do
     gem 'sqlite3'
-  end
-
-  platforms :jruby do
-    gem 'json'
-    gem 'activerecord-jdbcsqlite3-adapter', git: 'https://github.com/jruby/activerecord-jdbc-adapter', branch: 'master'
   end
 end
 
