@@ -105,7 +105,7 @@ databases = {
 }
 ActiveRecord::Base.configurations =
   # ActiveRecord.gem_version was introduced in ActiveRecord 4.0
-  if ActiveRecord.respond_to?(:gem_version) && ActiveRecord.gem_version >= Gem::Version.new('5.0.0')
+  if ActiveRecord.respond_to?(:gem_version) && ActiveRecord.gem_version >= Gem::Version.new('5.1.0')
     { 'test' => databases }
   else
     databases
