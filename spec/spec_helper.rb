@@ -61,8 +61,14 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    ActiveRecord::Base.configurations.each_value do |c|
-      FileUtils.rm_f(c[:database])
+    if ActiveRecord::Base.configurations.respond_to?(:configs_for)
+      ActiveRecord::Base.configurations.configs_for.each do |c|
+        FileUtils.rm_f(c.config['database'])
+      end
+    else
+      ActiveRecord::Base.configurations.each_value do |c|
+        FileUtils.rm_f(c[:database])
+      end
     end
   end
 
