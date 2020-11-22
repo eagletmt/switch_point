@@ -23,11 +23,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'appraisal'
   spec.add_development_dependency 'benchmark-ips'
   spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'coveralls'
+  spec.add_development_dependency 'coveralls', '>= 0.8.22'
   spec.add_development_dependency 'rack'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '>= 3.0'
   spec.add_development_dependency 'rubocop', '>= 0.50.0'
-  spec.add_development_dependency 'simplecov', '>= 0.9.0'
+  spec.add_development_dependency 'simplecov', '~> 0.16.1'  # XXX: The latest coveralls still depends on old version
   spec.add_dependency 'activerecord', '>= 3.2.0'
 end
