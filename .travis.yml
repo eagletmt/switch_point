@@ -14,14 +14,12 @@ gemfile:
   - gemfiles/rails_5.2.gemfile
   - gemfiles/rails_6.0.gemfile
   - gemfiles/rails_edge.gemfile
-sudo: false
 after_script:
   - bundle exec rake benchmark
-matrix:
+jobs:
   allow_failures:
     - rvm: ruby-head
     - gemfile: gemfiles/rails_edge.gemfile
-jobs:
   exclude:
   # Rails 3.2 - 4.2 doesn't support Ruby 2.7
   - rvm: 2.7.2
