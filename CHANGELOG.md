@@ -1,3 +1,7 @@
+## 0.9.0 (2020-11-22)
+- Drop support for Ruby 2.2, 2.3 and 2.4
+- End support for upcoming ActiveRecord >= v6.1
+
 ## 0.8.0 (2016-06-06)
 - Drop Ruby 2.0.0 and 2.1 support
 - Add `AR::Base#with_readonly` and `AR::Base#with_writable`
