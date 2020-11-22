@@ -438,7 +438,7 @@ RSpec.describe SwitchPoint::Model do
       end
       expect(Book.with_writable { Book.count }).to eq(1)
 
-      expect { book.transaction_with(Book3) {} }.to raise_error(SwitchPoint::Error)
+      expect { book.transaction_with(Book3) {} }.to raise_error(SwitchPoint::Error) # rubocop:disable Lint/EmptyBlock
     end
   end
 

@@ -28,6 +28,7 @@ module SwitchPoint
           if switch_point[:mode] != :writable
             raise Error.new("ActiveRecord::Base's switch_points must be writable, but #{switch_point[:name]} is #{switch_point[:mode]}")
           end
+
           purge_readonly_query_cache(proxy)
         end
       end

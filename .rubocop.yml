@@ -1,13 +1,17 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.5
   DisplayCopNames: true
+  NewCops: enable
+  Exclude:
+    - gemfiles/*.gemfile
 
-Performance/RedundantBlockCall:
+Layout/ArgumentAlignment:
   Enabled: false
-
-Layout/AlignParameters:
+Layout/LineLength:
+  Enabled: false
+Layout/ParameterAlignment:
   Enabled: false
 
 Naming/FileName:
@@ -36,7 +40,11 @@ Style/PercentLiteralDelimiters:
     '%w': '[]'
 Style/RaiseArgs:
   EnforcedStyle: compact
+Style/SafeNavigation:
+  Enabled: false
 Style/SignalException:
+  Enabled: false
+Style/SoleNestedConditional:
   Enabled: false
 Style/TrailingCommaInArguments:
   Enabled: false

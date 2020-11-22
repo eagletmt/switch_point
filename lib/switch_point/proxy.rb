@@ -40,6 +40,7 @@ module SwitchPoint
         if mode != :writable
           raise Error.new("ActiveRecord::Base's switch_points must be writable, but #{name} is #{mode}")
         end
+
         switch_points = pool.spec.config[:switch_points] || []
         switch_points << switch_point
         pool.spec.config[:switch_points] = switch_points
@@ -99,6 +100,7 @@ module SwitchPoint
       unless AVAILABLE_MODES.include?(new_mode)
         raise ArgumentError.new("Unknown mode: #{new_mode}")
       end
+
       saved_mode = thread_local_mode
       self.thread_local_mode = new_mode
       block.call

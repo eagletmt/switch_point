@@ -46,6 +46,7 @@ module SwitchPoint
       unless config.key?(:readonly) || config.key?(:writable)
         raise ArgumentError.new(':readonly or :writable must be specified')
       end
+
       if config.key?(:readonly)
         unless config[:readonly].is_a?(Symbol)
           raise TypeError.new(":readonly's value must be Symbol")
