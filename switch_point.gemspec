@@ -29,5 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '>= 3.0'
   spec.add_development_dependency 'rubocop', '>= 0.50.0'
   spec.add_development_dependency 'simplecov', '~> 0.16.1'  # XXX: The latest coveralls still depends on old version
-  spec.add_dependency 'activerecord', '>= 3.2.0'
+  spec.add_dependency 'activerecord', '>= 3.2.0', '< 6.1.0'
 end

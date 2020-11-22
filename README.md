@@ -6,6 +6,23 @@
 
 Switching database connection between readonly one and writable one.
 
+## Maintenance notice
+switch_point won't support upcoming ActiveRecord v6.1 or later.
+Developers should use the builtin multiple database feature introduced in ActiveRecord v6.0.
+https://guides.rubyonrails.org/active_record_multiple_databases.html
+Thus the supported ActiveRecord version is v3.2, v4.0, v4.1, v4.2, v5.0, v5.1, and v5.2.
+
+switch_point won't accept any new features. Bug fixes might be accepted.
+If you'd like to add a new feature (and/or support ActiveRecord >= v6.1), feel free to fork switch_point gem.
+
+### Migration from switch_point to ActiveRecord multiple database feature
+1. Upgrade your activerecord gem to v6.0
+    - ActiveRecord v6.0 is the only series which supports both builtin multiple database feature and switch_point.
+2. Change your application to use ActiveRecord multiple database feature
+    - If you'd like to keep the number of connections during this step, it would require some tricks.
+3. Remove switch_point gem from your Gemfile
+4. Upgrade your activerecord gem to v6.1 or later
+
 ## Installation
 
 Add this line to your application's Gemfile:

@@ -63,13 +63,5 @@ appraise 'rails-6.0' do
     gem 'sqlite3'
   end
 end
-appraise 'rails-edge' do
-  gem 'activerecord', git: 'https://github.com/rails/rails'
-  gem 'arel', git: 'https://github.com/rails/arel'
-
-  platforms :ruby do
-    gem 'sqlite3'
-  end
-end
 
 # vim: set ft=ruby:
